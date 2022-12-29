@@ -40,10 +40,10 @@ export default function Home({ company }) {
       <meta
         name="msapplication-TileImage"
         content={
-          company.medias && company.medias.length > 0
-            ? company.medias[0].link
-            : company.logo
+          company.logo
             ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
             : ""
         }
       />
@@ -56,10 +56,10 @@ export default function Home({ company }) {
       <meta
         property="og:image"
         content={
-          company.medias && company.medias.length > 0
-            ? company.medias[0].link
-            : company.logo
+          company.logo
             ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
             : ""
         }
       />

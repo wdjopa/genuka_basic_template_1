@@ -179,7 +179,11 @@ function CartComponent({ company }) {
                         className="flex justify-between items-center min-h-16 mb-2 border-b-slate-200 border-0 border-b"
                       >
                         <div className="w-14 relative peh-14">
-                          <ProductImage product={item.product} />
+                          <ProductImage
+                            product={item.product}
+                            width={56}
+                            height={56}
+                          />
                         </div>
                         <div className="w-full h-full ml-2 flex-col flex">
                           <div className="flex justify-between">
