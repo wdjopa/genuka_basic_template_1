@@ -157,7 +157,10 @@ function CartComponent({ company }) {
           >
             <div className="absolute inset-0 bg-black opacity-10"></div>
           </div>
-          <div className="bg-white overflow-auto relative shadow-xl h-screen sm:w-1/3 py-4 ">
+          <div
+            className="bg-white  overflow-auto relative shadow-xl sm:h-screen h-3/5  sm:w-1/3 py-4 "
+            // style={{ maxHeight: "80vh" }}
+          >
             <div className="flex items-center justify-between mb-2 px-4 pb-4">
               <h2 className="text-xl sm:text-2xl leading-6 font-sm text-gray-900">
                 Panier
@@ -212,7 +215,7 @@ function CartComponent({ company }) {
                                 )}
                               </span>
                             </div>
-                            <div className=" flex text-xs font-xs justify-between w-16  bg-white rounded-md overflow-hidden">
+                            <div className=" flex justify-between w-16  bg-white rounded-md overflow-hidden">
                               <span
                                 onClick={() => {
                                   dispatch({
