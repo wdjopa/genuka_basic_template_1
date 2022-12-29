@@ -1,28 +1,11 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  HStack,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  useRadio,
-  useRadioGroup,
-} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
   chargeMomoPayment,
   useGenukaDispatch,
   useGenukaState,
-} from "../store/genukaStore";
-import Error from "./common/Error";
+} from "../utils/genuka.store";
+import Error from "./Error";
+import Modal from "./Modal";
 
 function RadioCard(props) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -31,35 +14,22 @@ function RadioCard(props) {
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label">
+    <label>
       <input {...input} />
-      <Box
+      <div
         {...checkbox}
-        cursor="pointer"
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="xs"
-        _checked={{
-          bg: "orange.600",
-          color: "white",
-          borderColor: "orange.600",
-        }}
-        _focus={{
-          boxShadow: "outline",
-        }}
-        px={5}
-        py={2}
+        className="px-5 py-2 cursor-pointer border rounded-md shadow-sm focus:shadow checked:bg-primary checked:text-white checked:border-primary"
       >
         {props.children}
-      </Box>
-    </Box>
+      </div>
+    </label>
   );
 }
 
 function PaymentProcessMobileMoney({ order }) {
   const { company, loading, error } = useGenukaState();
   const dispatch = useGenukaDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const [canPay, setCanPay] = useState(false);
   const [paymentSettings, setPaymentSettings] = useState({
     phone: order?.customer?.phone,
@@ -112,59 +82,59 @@ function PaymentProcessMobileMoney({ order }) {
 
   return (
     <div>
-      <Button width={"full"} onClick={onOpen}>
+      <button width={"full"} onClick={() => setIsOpen(true)}>
         Effectuer le paiement
-      </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay bg="blackAlpha.300" backdropFilter="blur(10px) " />{" "}
-        <ModalContent>
-          <ModalHeader>
+      </button>
+      <Modal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title={
+          <>
+            {" "}
             Paiement par{" "}
             {company.payment_modes
               ? company.payment_modes[order.payment_mode].full_name
               : order.payment_mode}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl>
-              <FormLabel>Votre numéro de téléphone</FormLabel>
-              <Input
-                type="tel"
-                onChange={(e) => {
-                  onChange(e.target.value, "phone");
-                  e.preventDefault();
-                }}
-                defaultValue={order.customer.phone}
-                placeholder="Numéro de téléphone*"
-              />
-            </FormControl>
-            <FormControl my="5">
-              <FormLabel>Selectionnez un opérateur</FormLabel>
-              <HStack>
-                {options.map((value) => {
-                  const radio = getRadioProps({ value });
-                  return (
-                    <RadioCard key={value} {...radio}>
-                      {value}
-                    </RadioCard>
-                  );
-                })}
-              </HStack>
-            </FormControl>
-            {error && <Error error_text={error} />}
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              width="full"
-              colorScheme="whatsapp"
-              disabled={!canPay || (loading && loading.payment)}
-              isLoading={loading && loading.payment}
-              onClick={chargeMobileMoneyPayment}
-            >
-              Payer
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+          </>
+        }
+      >
+        <div>
+          <div>
+            <label>Votre numéro de téléphone</label>
+            <input
+              type="tel"
+              onChange={(e) => {
+                onChange(e.target.value, "phone");
+                e.preventDefault();
+              }}
+              defaultValue={order.customer.phone}
+              placeholder="Numéro de téléphone*"
+            />
+          </div>
+          <div my="5">
+            <label>Selectionnez un opérateur</label>
+            <div className="flex ">
+              {options.map((value) => {
+                const radio = getRadioProps({ value });
+                return (
+                  <RadioCard key={value} {...radio}>
+                    {value}
+                  </RadioCard>
+                );
+              })}
+            </div>
+          </div>
+          {error && <Error error_text={error} />}
+        </div>
+        <div>
+          <button
+            className="w-full bg-primary"
+            disabled={!canPay || (loading && loading.payment)}
+            onClick={chargeMobileMoneyPayment}
+          >
+            Payer
+          </button>
+        </div>
       </Modal>
     </div>
   );

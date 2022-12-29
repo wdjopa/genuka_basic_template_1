@@ -1,25 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import {
-  Button,
-  Link,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Modal from "./Modal";
 
 function PaymentModal({ order, company }) {
-  const {
-    isOpen: isRedirectionModalOpen,
-    onOpen: onOpenRedirectionModal,
-    onClose: onCloseRedirectionModal,
-  } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
   const link =
     order.payment_mode === "card"
       ? `https://dashboard.genuka.com/bill/${order.total}/${
@@ -48,37 +32,29 @@ function PaymentModal({ order, company }) {
 
   return (
     <>
-      <Button width={"full"} onClick={onOpenRedirectionModal}>
-        Réessayer le paiement
-      </Button>
-      <Modal
-        isCentered
-        isOpen={isRedirectionModalOpen}
-        onClose={onCloseRedirectionModal}
-        size={"sm"}
+      <button
+        className="w-full"
+        onClick={() => {
+          setIsOpen(true);
+        }}
       >
-        <ModalOverlay
-          bg="blackAlpha.300"
-          backdropFilter="blur(10px) hue-rotate(90deg)"
-        />{" "}
-        <ModalContent>
-          <ModalHeader>Commande passée 🎉</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>
-              Votre commande a bien été enregistrée. Afin qu'elle soit traitée,
-              vous devez finaliser le piement. Vous devez alors aller vers la
-              page de paiement 😊.
-            </Text>
-          </ModalBody>
-          <ModalFooter>
-            <Button width="full">
-              <Link size="lg" colorScheme="whatsapp" href={link}>
-                Continuer vers la page de paiement
-              </Link>
-            </Button>
-          </ModalFooter>
-        </ModalContent>
+        Réessayer le paiement
+      </button>
+      <Modal title={"Commande passée 🎉"} isOpen={isOpen} setIsOpen={setIsOpen}>
+        <div>
+          <p>
+            Votre commande a bien été enregistrée. Afin qu'elle soit traitée,
+            vous devez finaliser le piement. Vous devez alors aller vers la page
+            de paiement 😊.
+          </p>
+        </div>
+        <div>
+          <button className="w-full">
+            <a className="text-lg " href={link}>
+              Continuer vers la page de paiement
+            </a>
+          </button>
+        </div>
       </Modal>
     </>
   );

@@ -72,7 +72,7 @@ function Layout({ company, children, head }) {
     <div className="container md:px-6 max-w-4xl px-4 mx-auto">
       <Head>{head}</Head>
       <Header company={company} />
-      <main className="my-10 ">{children}</main>
+      <main className="mt-4 mb-10 ">{children}</main>
       <Footer company={company} />
       <Notifications />
 

@@ -1,8 +1,10 @@
 // import Layout from "../partials/Layout";
+import { useEffect } from "react";
 import Layout from "../partials/Layout";
 import Shop from "../partials/Shop";
 import Stories from "../partials/Stories";
 import { genuka_api_2021_10 } from "../utils/configs";
+import { useGenukaDispatch } from "../utils/genuka.store";
 
 export default function Home({ company }) {
   const css = `
@@ -65,7 +67,10 @@ export default function Home({ company }) {
       <meta property="og:site_name" content={company.name} />
     </>
   );
-  console.log("Render index");
+  const dispatch = useGenukaDispatch();
+  useEffect(() => {
+    dispatch({ type: "company", payload: company });
+  }, [company]);
   return (
     <Layout head={meta} company={company}>
       <Stories company={company} />

@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Player } from "@lottiefiles/react-lottie-player";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  cancelMyOrder,
   loadOrder,
   useGenukaDispatch,
   useGenukaState,
-} from "../store/genukaStore";
-import Error from "./common/Error";
+  cancelMyOrder,
+} from "../utils/genuka.store";
+import Error from "./Error";
 import PaymentModal from "./PaymentModal";
 import PaymentProcessMobileMoney from "./PaymentProcessMobileMoney";
 
@@ -19,17 +19,30 @@ function OrderStatusPage() {
     company,
     error,
   } = useGenukaState();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: openConfirm,
-    onOpen: onOpenConfirm,
-    onClose: onCloseConfirm,
-  } = useDisclosure();
-  const {
-    isOpen: openArchiveConfirm,
-    onOpen: onOpenArchiveConfirm,
-    onClose: onCloseArchiveConfirm,
-  } = useDisclosure();
+  const [isOpen, setIsOpen] = useState(false);
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const onOpenConfirm = () => {
+    setOpenConfirm(true);
+  };
+  const onCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
+
+  const [openArchiveConfirm, setOpenArchiveConfirm] = useState(false);
+  const onOpenArchiveConfirm = () => {
+    setOpenArchiveConfirm(true);
+  };
+  const onCloseArchiveConfirm = () => {
+    setOpenArchiveConfirm(false);
+  };
+
   const btnRef = React.useRef();
   const dispatch = useGenukaDispatch();
   useEffect(() => {
@@ -116,10 +129,10 @@ function OrderStatusPage() {
                       src="/assets/payment_process_animation.json"
                       style={{ height: "300px", width: "300px" }}
                     />
-                    {order &&
+                    {/* {order &&
                       ["mobilemoney", "momo"].includes(order.payment_mode) && (
                         <PaymentProcessMobileMoney order={order} />
-                      )}
+                      )} */}
                     {order &&
                       ["paypal", "card"].includes(order.payment_mode) && (
                         <PaymentModal order={order} company={company} />

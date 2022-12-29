@@ -1,5 +1,5 @@
 import React from "react";
-import { useGenukaDispatch } from "../../store/genukaStore";
+import { useGenukaDispatch } from "../utils/genuka.store";
 
 function Error({ error_text }) {
   const dispatch = useGenukaDispatch();

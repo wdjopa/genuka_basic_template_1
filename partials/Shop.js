@@ -66,7 +66,7 @@ function Shop({ company }) {
       <SearchBar company={company} searchProduct={searchProduct} />
       {!search_mode && <CollectionsTags company={company} />}
       <Products company={company} />
-      <OrderStatusPage />
+      {/* <OrderStatusPage /> */}
     </>
   );
 }
