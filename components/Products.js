@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
   getCollectionProducts,
@@ -16,28 +17,71 @@ function Products({ company }) {
     products,
     collection,
     collection_product_list_pagination,
+    product,
+    cart,
   } = useGenukaState();
   const dispatch = useGenukaDispatch();
   const [modalOpen, setModalOpen] = useState(false);
-  const [productDetailed, setProductDetailed] = useState(undefined);
+  const [productDetailed, setProductDetailed] = useState(product);
+  const router = useRouter();
 
   const openDetails = (product) => {
+    router.push(
+      (router.query.slug && !router.query.slug.includes("products")
+        ? router.query.slug.join("/")
+        : "") +
+        "/products/" +
+        product.slug,
+      null,
+      { shallow: true }
+    );
+
     setProductDetailed(product);
     setModalOpen(true);
   };
 
   useEffect(() => {
-    if (company.id) {
-      getProducts(dispatch, company.id, collection_product_list_pagination);
+    if (product) {
+      setProductDetailed(product);
+      setModalOpen(true);
     }
-  }, [company]);
+  }, [product]);
 
   const changePagination = (pagination) => {
+    const {
+      first,
+      last,
+      prev,
+      path,
+      from,
+      last_page,
+      total,
+      next,
+      to,
+      page,
+      ...query
+    } = pagination;
+    router.push({ query: { ...router.query, ...query } }, undefined, {
+      shallow: true,
+    });
+
     if (collection) {
       getCollectionProducts(dispatch, company.id, collection.id, pagination);
     } else {
       getProducts(dispatch, company.id, pagination);
     }
+  };
+
+  const addProductToCart = (productInCart) => {
+    dispatch({ type: "add_product", payload: productInCart });
+  };
+
+  const removeProductFromCart = (product) => {
+    const productInCart = {
+      quantity: -1,
+      product,
+    };
+    dispatch({ type: "add_product", payload: productInCart });
   };
 
   const _products = search_mode ? searched_products : products;
@@ -53,6 +97,15 @@ function Products({ company }) {
           <ProductCard
             key={"product_card" + product.id}
             product={product}
+            quantityInCart={cart.items.reduce((prev, curr, items) => {
+              return (
+                prev + (curr.product.id === product.id ? curr.quantity : 0)
+              );
+            }, 0)}
+            addToCart={addProductToCart}
+            removeFromCart={(variants) => {
+              removeProductFromCart(product, variants || []);
+            }}
             currency={company.currency}
             defaultImage={company.logo}
             seeDetails={openDetails}
@@ -62,9 +115,14 @@ function Products({ company }) {
       {productDetailed && (
         <ProductModal
           isOpen={modalOpen}
+          company={company}
           currency={company.currency}
           product={productDetailed}
-          setIsOpen={setModalOpen}
+          addToCart={addProductToCart}
+          setIsOpen={(state) => {
+            router.back();
+            setModalOpen(state);
+          }}
         />
       )}
       <div className="my-6" />
@@ -76,4 +134,4 @@ function Products({ company }) {
   );
 }
 
-export default Products;
+export default React.memo(Products);

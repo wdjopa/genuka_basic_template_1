@@ -41,55 +41,19 @@ function LegalsModal({ legal, open, close }) {
 function Footer({ company }) {
   const [isOpen, setIsOpen] = useState(false);
   const [legalPageToShow, setLegalPageToShow] = useState();
-  console.log(company);
   if (!company) return <></>;
   return (
     <footer className="footer">
       <GenukaBar />
-      {/* <div my="5">
-        <div>
-          Cette page a été générée avec{" "}
-          <a
-            href={"https://genuka.com/?from=" + company.name}
-            color="#ffab01"
-          >
-            Genuka
-          </a>{" "}
-          V{version}
-        </div>
-      </div>
-      <div>
-        <div
-          href={"https://genuka.com/?from=" + company.name}
-          isExternal
-          _hover={{ textDecoration: "none" }}
-        >
-          <div
-            color="white"
-            bg="#ff8800"
-            _hover={{ background: "#FFAB01CC" }}
-            size="sm"
-          >
-            <Image
-              src="https://dashboard.genuka.com/logo.png"
-              boxSize="20px"
-              alt="Boutton Genuka"
-              width={100}
-              height={100}
-            />
-            &nbsp;&nbsp;Créez votre page de vente sur Genuka
-          </div>
-        </div>
-      </div> */}
-
       {company.legals && company.legals.length > 0 ? (
         <>
-          <hr my="5" />
-          <div my="3">
-            <div spacing={4} align="center">
+          <hr className="my-5" />
+          <div className="my-3">
+            <div spacing={4} className="text-left">
               {company.legals.map((legal) => (
                 <div
                   key={"legals-" + legal.id}
+                  className="mb-1 text-xs"
                   onClick={() => {
                     setIsOpen(true);
                     setLegalPageToShow(legal);

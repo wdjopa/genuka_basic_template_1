@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
   getCollectionProducts,
@@ -26,12 +27,18 @@ function CollectionsTags({ company }) {
     collection?.id || allProductsCollection.id
   );
   const [collections, setCollections] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
-    if (company.id) {
-      getPaginatedCollections(dispatch, company.id, collection_list_pagination);
+    if (collection) {
+      setSelectedCollectionId(collection.id);
     }
-  }, [company]);
+  }, [collection]);
+
+  useEffect(() => {
+    console.log("getPaginatedCollections");
+    getPaginatedCollections(dispatch, company.id, collection_list_pagination);
+  }, []);
 
   useEffect(() => {
     if (collections_list && company)
@@ -41,9 +48,11 @@ function CollectionsTags({ company }) {
   const onSelect = (collectionId) => {
     setSelectedCollectionId(collectionId); // Update only the Id
     if (collectionId == 0) {
+      router.push("/", null, { shallow: true });
       dispatch({ type: "collection", payload: undefined });
       getProducts(dispatch, company.id, collection_product_list_pagination);
     } else {
+      router.push("/collections/" + collectionId, null, { shallow: true });
       getCollectionProducts(
         dispatch,
         company.id,
@@ -57,7 +66,7 @@ function CollectionsTags({ company }) {
     return <></>;
   }
   return (
-    <div className="flex py-4 overflow-x-auto">
+    <div className="flex pb-4 overflow-x-auto">
       {collections.map((collection, i) => (
         <CollectionTag
           isSelected={

@@ -28,7 +28,9 @@ async function getCompanyById(dispatch, company_id) {
       payload: "An error occur when getting company",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
+
 async function getCompany(dispatch, domain_url) {
   dispatch({ type: "loading", payload: { global: true } });
   try {
@@ -49,6 +51,7 @@ async function getCompany(dispatch, domain_url) {
       payload: "An error occur when getting company",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function getPaginatedCollections(
@@ -76,13 +79,15 @@ async function getPaginatedCollections(
       payload: "An error occur when getting collection",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
+
 async function getCollection(dispatch, company_id, collection_id) {
   dispatch({ type: "loading", payload: { global: true } });
 
   try {
     const response = await axios.get(
-      `${genuka_api_2021_10}/companies/${company_id}/collections/${collection_id}?per_page=12`
+      `${genuka_api_2021_10}/companies/${company_id}/collections/${collection_id}?per_page=1000`
     );
     if (response.data) {
       dispatch({ type: "collection_success", payload: response.data });
@@ -98,6 +103,7 @@ async function getCollection(dispatch, company_id, collection_id) {
       payload: "An error occur when getting collection",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function getCollectionProducts(
@@ -128,6 +134,7 @@ async function getCollectionProducts(
       payload: "An error occur when getting collection",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function getProducts(
@@ -155,6 +162,7 @@ async function getProducts(
       payload: "An error occur when getting products",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function searchProducts(dispatch, company_id, searchTerm) {
@@ -178,6 +186,7 @@ async function searchProducts(dispatch, company_id, searchTerm) {
       payload: "An error occur when getting products",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function getProduct(dispatch, product_slug) {
@@ -201,6 +210,7 @@ async function getProduct(dispatch, product_slug) {
       payload: "An error occur when getting product",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function getProductById(dispatch, company_id, product_slug) {
@@ -224,6 +234,7 @@ async function getProductById(dispatch, company_id, product_slug) {
       payload: "An error occur when getting product",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function registerUser(dispatch, company_id, user) {
@@ -351,6 +362,8 @@ async function getAddresses(dispatch) {
 
 async function getUser(dispatch) {
   const token = localStorage.getItem("access_token");
+  dispatch({ type: "loading", payload: { global: true } });
+
   try {
     const response = await axios.get(`${genuka_api_2021_10}/user`, {
       headers: { Authorization: "Bearer " + token },
@@ -371,6 +384,8 @@ async function getUser(dispatch) {
       payload: error.message,
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
+
   return false;
 }
 
@@ -443,6 +458,8 @@ async function updatePassword(dispatch, user) {
   return false;
 }
 async function updateAddress(dispatch, address) {
+  dispatch({ type: "loading", payload: { global: true } });
+
   const token = localStorage.getItem("access_token");
   try {
     const response = await axios.put(
@@ -467,10 +484,12 @@ async function updateAddress(dispatch, address) {
       payload: "An error occur when getting addresses",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function loginWithToken(dispatch) {
   const token = localStorage.getItem("access_token");
+  dispatch({ type: "loading", payload: { global: true } });
   try {
     if (token) {
       const response = await axios.get(`${genuka_api_2021_10}/user`, {
@@ -486,6 +505,7 @@ async function loginWithToken(dispatch) {
       payload: "An error occur when getting addresses",
     });
   }
+  dispatch({ type: "loading", payload: { global: false } });
 }
 
 async function cancelMyOrder(dispatch, order) {
@@ -516,7 +536,7 @@ async function cancelMyOrder(dispatch, order) {
         "An error occured when placing your order. Error : " + error.message,
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { order: false } });
 }
 
 async function placeOrder(dispatch, order) {
@@ -548,7 +568,7 @@ async function placeOrder(dispatch, order) {
         "An error occured when placing your order. Error : " + error.message,
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { order: false } });
 }
 
 async function chargeMomoPayment(dispatch, paymentSettings) {
@@ -577,7 +597,7 @@ async function chargeMomoPayment(dispatch, paymentSettings) {
       payload: "Veuillez vérifier votre solde ou réessayez plus tard",
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { payment: false } });
 }
 
 async function getReviews(dispatch, product) {
@@ -610,7 +630,7 @@ async function getReviews(dispatch, product) {
       payload: "Veuillez vérifier votre solde ou réessayez plus tard",
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { review: false } });
 }
 
 async function sendAReview(dispatch, product, { note, message }) {
@@ -633,7 +653,7 @@ async function sendAReview(dispatch, product, { note, message }) {
       payload: "Une erreur est survenue lors de l'enregistrement de l'avis",
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { review: false } });
 }
 
 async function updateAReview(dispatch, product, { id, note, message }) {
@@ -656,7 +676,7 @@ async function updateAReview(dispatch, product, { id, note, message }) {
       payload: "Une erreur est survenue lors de la modification de l'avis",
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { review: false } });
 }
 
 async function deleteAReview(dispatch, product, review) {
@@ -677,14 +697,14 @@ async function deleteAReview(dispatch, product, review) {
       payload: "Une erreur est survenue lors de la suppression de l'avis",
     });
   }
-  dispatch({ type: "loading", payload: undefined });
+  dispatch({ type: "loading", payload: { review: false } });
 }
 
 function evaluateNewPrice(pC) {
   console.log({ pC });
   if (!pC.product) return 0;
   // evaluate new price
-  let price = pC.product.price;
+  let price = pC.product.discounted_price;
   // cherchons toutes les variants qui ont des variantes avec des prix (!= 0). On prendra le prix le plus élevé comme le prix de base
   const variantsToExclude = []; // les variantes dont les options fixent le prix, ne pourront plus être utilisées pour les prix additionnels
   pC.variants.forEach((variant) => {
@@ -708,7 +728,7 @@ function evaluateNewPrice(pC) {
 }
 
 function commentReducer(state, action) {
-  state = { ...state, loading: { global: false } };
+  console.log("Entrée 1, ProductInCart");
   switch (action.type) {
     case "hydrate_product": {
       let pC = { ...state.productInCart, product: action.payload.product };
@@ -745,6 +765,11 @@ function commentReducer(state, action) {
           ),
         })
       );
+      pC.complement = pC.variants.map((v) => {
+        return {
+          [v.name]: v.options.map((o) => o.name),
+        };
+      });
       pC.price = evaluateNewPrice(pC);
       return { ...state, productInCart: pC };
     }
@@ -839,26 +864,40 @@ function commentReducer(state, action) {
     }
     case "add_product": {
       let cart = state.cart;
-      let productCart = {
-        ...action.payload,
+      const productCart = {
         add_to_cart_date: new Date(),
         note: "",
         complement: "",
+        ...action.payload,
       };
-      if (
+      const alreadyExistsInCart =
         cart.items
           .map((item) => item.product.id)
-          .includes(productCart.product.id)
-      ) {
+          .includes(productCart.product.id) &&
+        cart.items.filter(
+          (item) =>
+            item.price === productCart.price &&
+            JSON.stringify(item.complement) ===
+              JSON.stringify(productCart.complement)
+        ).length > 0;
+      console.log({ productCart, alreadyExistsInCart });
+      if (alreadyExistsInCart) {
         cart.items = cart.items.map((item) => {
-          if (item.product.id === productCart.product.id) {
+          if (
+            item.product.id === productCart.product.id &&
+            item.price === productCart.price &&
+            JSON.stringify(item.complement) ===
+              JSON.stringify(productCart.complement)
+          ) {
             return { ...item, quantity: item.quantity + productCart.quantity };
           }
           return item;
         });
+        console.log("productInCart", cart);
       } else {
         cart.items.push(productCart);
       }
+      cart = { ...cart, items: cart.items.filter((item) => item.quantity > 0) };
       localStorage.setItem("cart", JSON.stringify(cart));
       return { ...state, cart };
     }
@@ -932,6 +971,14 @@ function commentReducer(state, action) {
         localStorage.setItem("orders", JSON.stringify(orders));
       }
       return { ...state, current_order: undefined, orders };
+    }
+    case "clear_cart": {
+      let cart = {
+        created_at: new Date(),
+        items: [],
+      };
+      localStorage.setItem("cart", JSON.stringify(cart));
+      return { ...state, cart };
     }
     case "order_placed": {
       let cart = {
@@ -1040,6 +1087,7 @@ function GenukaProvider({ children }) {
     user: undefined,
     collections: undefined,
     products: undefined,
+    activeProduct: undefined,
     productInCart: {
       product: undefined,
       price: 0,

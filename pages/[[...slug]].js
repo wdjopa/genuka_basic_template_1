@@ -65,7 +65,7 @@ export default function Home({ company }) {
       <meta property="og:site_name" content={company.name} />
     </>
   );
-
+  console.log("Render index");
   return (
     <Layout head={meta} company={company}>
       <Stories company={company} />

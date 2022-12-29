@@ -98,9 +98,24 @@ function MediasBlock({ product }) {
   );
 }
 
-const ProductModal = ({ product, currency, isOpen, setIsOpen }) => {
+const ProductModal = ({
+  product,
+  company,
+  currency,
+  isOpen,
+  setIsOpen,
+  addToCart,
+}) => {
+  const [qty, setQty] = useState(1);
   const dispatch = useGenukaDispatch();
-  const { productInCart, company, user, token } = useGenukaState();
+  const { cart, productInCart } = useGenukaState();
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    setQty(1);
+  }, [isOpen]);
 
   useEffect(() => {
     if (
@@ -120,16 +135,6 @@ const ProductModal = ({ product, currency, isOpen, setIsOpen }) => {
     }
   }, [product, company, dispatch]);
 
-  useEffect(() => {
-    if (!user && token) {
-      getUser(dispatch);
-    }
-  }, [token]);
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
   const clearVariant = ({ variant }) => {
     dispatch({ type: "clear_variant", payload: variant });
   };
@@ -137,6 +142,28 @@ const ProductModal = ({ product, currency, isOpen, setIsOpen }) => {
   const selectVariantOption = ({ variant, option }) => {
     dispatch({ type: "add_variant_option", payload: { variant, option } });
   };
+  const _productInCart = { ...productInCart, product } ||
+    cart.items.filter((item) => item.product.id === product.id)?.[0] || {
+      product,
+      addToCart: new Date(),
+      variants: [],
+      properties: [],
+      complement: "",
+      note: "",
+    };
+  const requiredVariantsSlug = _productInCart.product.variants
+    .filter((v) => v.required)
+    .map((v) => v.slug);
+  const canOrder =
+    _productInCart.variants.length >= requiredVariantsSlug.length &&
+    _productInCart.variants
+      .filter((v) => v.required)
+      .every(
+        (v) =>
+          requiredVariantsSlug.includes(v.slug) &&
+          v.options.length == v.max_choices
+      );
+  console.log({ _productInCart, canOrder, productInCart });
 
   return (
     <div>
@@ -172,9 +199,9 @@ const ProductModal = ({ product, currency, isOpen, setIsOpen }) => {
                   <div className="w-full sm:w-1/2">
                     <div className="price my-3">
                       <span className="text-3xl font-semibold">
-                        {product.discounted_price} {currency.symbol}
+                        {productInCart.price} {currency.symbol}
                       </span>
-                      {product.price > product.discounted_price && (
+                      {product.price > productInCart.price && (
                         <span className="line-through text-lg ml-2">
                           {product.price} {currency.symbol}
                         </span>
@@ -185,21 +212,64 @@ const ProductModal = ({ product, currency, isOpen, setIsOpen }) => {
                       <VariantsBlock
                         product={product}
                         selectVariantOption={selectVariantOption}
-                        productInCart={productInCart}
+                        productInCart={_productInCart}
                         clearVariant={clearVariant}
                       />
                     </div>
 
+                    <div className="quantity flex justify-between items-center my-3">
+                      <span className="font-normal text-xl">Quantity</span>
+                      <div className=" flex border-2 border-primary bg-white rounded-md overflow-hidden">
+                        <span
+                          onClick={() => {
+                            if (qty > 1) setQty(qty - 1);
+                          }}
+                          className="w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-slate-100"
+                        >
+                          —
+                        </span>
+                        <span className="w-8 h-8 flex justify-center items-center">
+                          {qty}
+                        </span>
+                        <span
+                          onClick={() => {
+                            setQty(qty + 1);
+                          }}
+                          className="w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-slate-100"
+                        >
+                          +
+                        </span>
+                      </div>
+                    </div>
                     <div className="buttons">
-                      <button className="btn border-primary text-primary border-2 my-2 rounded-md w-full px-4 py-2">
+                      <button
+                        className={
+                          (canOrder
+                            ? "border-primary text-primary"
+                            : " text-slate-400") +
+                          " btn border-2 my-2 rounded-md w-full px-4 py-2"
+                        }
+                        onClick={() => {
+                          addToCart({ ..._productInCart, quantity: qty });
+                        }}
+                        disabled={!canOrder}
+                      >
                         Ajouter au panier
                       </button>
-                      <button className="btn bg-primary border-primary text-white border-2 my-2 rounded-md w-full px-4 py-2">
+                      <button
+                        disabled={!canOrder}
+                        className={
+                          (canOrder
+                            ? "border-primary bg-primary  text-white"
+                            : "bg-slate-100 text-slate-400") +
+                          " btn border-2 my-2 rounded-md w-full px-4 py-2"
+                        }
+                      >
                         Acheter maintenant
                       </button>
                     </div>
 
-                    <ToggleTitle title={"Description"}>
+                    <ToggleTitle title={"Description"} isOpenByDefault={true}>
                       <div
                         dangerouslySetInnerHTML={{
                           __html: product.description,

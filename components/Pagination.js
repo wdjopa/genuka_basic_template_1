@@ -1,45 +1,7 @@
 import React from "react";
 
-function Pagination3({ pagination, onChange }) {
-  const previousPage = () => {
-    if (pagination.page > 1)
-      onChange({ ...pagination, page: pagination.page - 1 });
-  };
-  const nextPage = () => {
-    if (pagination.page < pagination.last_page) {
-      onChange({ ...pagination, page: pagination.page + 1 });
-    }
-  };
-
-  if (pagination.last_page == 1) return <></>;
-
-  return (
-    <div className="flex justify-between items-center py-4">
-      <button
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-        disabled={!pagination.prev}
-        onClick={previousPage}
-      >
-        Previous
-      </button>
-      <span className="text-gray-700 font-bold">
-        Page {pagination.current_page} of {pagination.last_page}
-      </span>
-      <button
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
-        disabled={!pagination.next}
-        onClick={nextPage}
-      >
-        Next
-      </button>
-    </div>
-  );
-}
 function Pagination({ pagination, onChange }) {
-  console.log(pagination, JSON.stringify(pagination));
-
   const previousPage = () => {
-    console.log(pagination);
     if (pagination.current_page > 1) {
       const newPage = pagination.current_page - 1;
       onChange({ ...pagination, page: newPage, current_page: newPage });

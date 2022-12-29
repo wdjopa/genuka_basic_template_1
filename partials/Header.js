@@ -20,7 +20,7 @@ function Header({ company }) {
         </h2>
       </div>
       <div className="text-center">
-        <p>{company.description}</p>
+        <div>{company.description}</div>
       </div>
     </>
   );

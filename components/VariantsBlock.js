@@ -24,8 +24,10 @@ function Variant({
           ▶
         </span>{" "}
         {variant.name}{" "}
-        <span style={{ color: "#dd5f5f" }}>
-          {variant.required ? "[Obligatoire]" : ""}
+        <span className="text-primary">
+          {variant.required
+            ? "[" + variant.max_choices + " choix obligatoire]"
+            : ""}
         </span>
       </b>
       {!variantIsOpened ? (
@@ -35,38 +37,39 @@ function Variant({
           <small>
             {variant.max_choices} choix {variant.max_choices > 1 ? "max" : ""}{" "}
             possible.{" "}
-            <span
-              as="u"
+            <u
+              className="cursor-pointer"
               onClick={() => {
                 clearVariant({ variant });
               }}
-              cursor={"pointer"}
             >
               Annuler tous les choix
-            </span>
+            </u>
           </small>
           <div className="text-sm mb-2">{variant.description}</div>
-          {variant.options.map((option) => {
-            const isSelected = productInCart.variants
-              .find((v) => v.slug === variant.slug)
-              ?.options?.map((o) => o.id)
-              ?.includes(option.id);
-            return (
-              <div
-                title={option.description}
-                className={
-                  "mr-1 mb-1 cursor-pointer border-2 rounded-md w-fit px-3 inline-block border-gray-800 " +
-                  (isSelected ? "bg-black text-white" : "bg-white text-black")
-                }
-                key={Math.random()}
-                onClick={() => {
-                  if (!isSelected) selectVariantOption({ variant, option });
-                }}
-              >
-                {option.name}
-              </div>
-            );
-          })}
+          {variant.options
+            .filter((option) => option.name != "")
+            .map((option) => {
+              const isSelected = productInCart.variants
+                .find((v) => v.slug === variant.slug)
+                ?.options?.map((o) => o.id)
+                ?.includes(option.id);
+              return (
+                <div
+                  title={option.description}
+                  className={
+                    "mr-1 mb-1 cursor-pointer border-2 rounded-md w-fit px-3 inline-block border-gray-800 " +
+                    (isSelected ? "bg-black text-white" : "bg-white text-black")
+                  }
+                  key={Math.random()}
+                  onClick={() => {
+                    if (!isSelected) selectVariantOption({ variant, option });
+                  }}
+                >
+                  {option.name}
+                </div>
+              );
+            })}
         </>
       )}
     </div>

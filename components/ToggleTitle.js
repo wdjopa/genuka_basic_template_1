@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-function ToggleTitle({ title, children }) {
-  const [isOpen, setIsOpen] = useState(false);
+function ToggleTitle({ title, children, isOpenByDefault = false }) {
+  const [isOpen, setIsOpen] = useState(isOpenByDefault);
   return (
     <div className="toggle cursor-pointer my-4">
       <h4
@@ -9,7 +9,7 @@ function ToggleTitle({ title, children }) {
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="">{title}</span>
-        <span className="text-2xl">{isOpen ? "-" : "+"}</span>
+        <span className="text-2xl">{isOpen ? "—" : "+"}</span>
       </h4>
       {isOpen && children}
     </div>
