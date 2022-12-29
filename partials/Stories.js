@@ -5,8 +5,9 @@ import ReactStories from "react-insta-stories";
 function Stories({ company }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const medias = [...company.medias];
-  console.log({ isFullscreen });
+  const medias = company.medias.filter(
+    (media) => media.collection_name == "stories"
+  );
   return (
     <div className="flex overflow-x-auto justify-center pb-4 w-full">
       {medias.map((media, i) => {
