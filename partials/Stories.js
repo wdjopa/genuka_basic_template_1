@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { Component, useState } from "react";
-import { renderer, tester } from "../components/Stories/Renderer";
+import { rendererImage, testerImage } from "../components/Stories/Renderer";
+import { rendererVideo, testerVideo } from "../components/Stories/Renderer";
 import ReactStories, { WithHeader } from "react-insta-stories";
 
 function Stories({ company }) {
@@ -68,20 +69,24 @@ function Stories({ company }) {
             }}
             renderers={[
               {
-                renderer,
-                tester,
+                renderer: rendererImage,
+                tester: testerImage,
+              },
+              {
+                renderer: rendererVideo,
+                tester: testerVideo,
               },
             ]}
             loop={true}
             stories={stories}
             defaultInterval={10000}
-            width={432}
+            width={"100%"}
             height={"100%"}
             currentIndex={currentIndex}
           />
 
           <div
-            className="z-auto text-2xl flex items-center justify-end w-12 h-12 text-white top-3 right-3 absolute"
+            className="cursor-pointer z-auto text-2xl flex items-center justify-end w-12 h-12 text-white top-3 right-3 absolute"
             style={{ zIndex: 1000 }}
             onClick={(e) => {
               e.preventDefault();
