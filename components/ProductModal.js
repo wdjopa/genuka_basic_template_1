@@ -199,11 +199,19 @@ const ProductModal = ({
                   <div className="w-full sm:w-1/2">
                     <div className="price my-3">
                       <span className="text-3xl font-semibold">
-                        {productInCart.price} {currency.symbol}
+                        {new Intl.NumberFormat("fr-FR", {
+                          style: "currency",
+                          currency: currency.code,
+                          maximumFractionDigits: 0,
+                        }).format(productInCart.price)}
                       </span>
                       {product.price > productInCart.price && (
                         <span className="line-through text-lg ml-2">
-                          {product.price} {currency.symbol}
+                          {new Intl.NumberFormat("fr-FR", {
+                            style: "currency",
+                            currency: currency.code,
+                            maximumFractionDigits: 0,
+                          }).format(product.price)}
                         </span>
                       )}
                     </div>
@@ -218,7 +226,7 @@ const ProductModal = ({
                     </div>
 
                     <div className="quantity flex justify-between items-center my-3">
-                      <span className="font-normal text-xl">Quantity</span>
+                      <span className="font-normal text-xl">Quantité</span>
                       <div className=" flex border-2 border-primary bg-white rounded-md overflow-hidden">
                         <span
                           onClick={() => {

@@ -195,7 +195,12 @@ function CartComponent({ company }) {
                               {item.quantity} &times; {item.product.name}
                             </span>
                             <span className="font-semibold">
-                              {item.price} {company.currency.symbol[0]}
+                              {new Intl.NumberFormat("fr-FR", {
+                                style: "currency",
+                                currency: company.currency.code,
+                                maximumFractionDigits: 0,
+                              }).format(item.price)}
+                              {/* {company.currency.symbol[0]} */}
                             </span>
                           </div>
 

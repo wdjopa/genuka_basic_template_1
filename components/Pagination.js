@@ -23,16 +23,16 @@ function Pagination({ pagination, onChange }) {
           onClick={previousPage}
           className="relative inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Previous
+          Précédent
         </button>
         <div className="text-gray-700 text-center flex items-center justify-center w-36">
-          Page {pagination.current_page} of {pagination.last_page}
+          Page {pagination.current_page} sur {pagination.last_page}
         </div>
         <button
           onClick={nextPage}
           className="relative ml-3 inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Next
+          Suivant
         </button>
       </div>
     </div>
