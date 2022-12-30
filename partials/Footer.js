@@ -43,7 +43,7 @@ function Footer({ company }) {
   const [legalPageToShow, setLegalPageToShow] = useState();
   if (!company) return <></>;
   return (
-    <footer className="footer">
+    <footer className="footer pb-10">
       <GenukaBar />
       {company.legals && company.legals.length > 0 ? (
         <>

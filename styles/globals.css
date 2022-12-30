@@ -81,6 +81,10 @@ a {
   background-color: var(--primary-color);
 }
 
+footer {
+  margin-bottom: 6rem;
+}
+
 footer .genuka_bar {
   background-color: var(--primary-color);
   display: flex;

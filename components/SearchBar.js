@@ -22,7 +22,7 @@ function SearchBar({ company, searchProduct }) {
           type="text"
           name="search"
           id="search"
-          className="block w-full rounded-md border-gray-300 pl-10 pr-12 py-3 focus:border-black focus:ring-black sm:text-sm"
+          className="block bg-white w-full rounded-md border-gray-300 pl-10 pr-12 py-3 focus:border-black focus:ring-black sm:text-sm"
           placeholder="Recherchez un produit"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

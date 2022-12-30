@@ -150,7 +150,7 @@ function CartComponent({ company }) {
         </div>
       )}
       {isVisible && isOpen && (
-        <div className="fixed z-50 bottom-0 inset-x-0 px-0 pb-0 sm:inset-0 sm:flex sm:items-center sm:justify-end ">
+        <div className="fixed z-50 top-0 inset-x-0 px-0 pb-0 sm:inset-0 sm:flex sm:items-center sm:justify-end ">
           <div
             className="fixed inset-0 transition-opacity"
             onClick={closeModal}
@@ -158,7 +158,8 @@ function CartComponent({ company }) {
             <div className="absolute inset-0 bg-black opacity-10"></div>
           </div>
           <div
-            className="bg-white  overflow-auto relative shadow-xl sm:h-screen h-3/5  sm:w-1/3 py-4 "
+            className="bg-white  overflow-auto relative shadow-xl  h-3/5  sm:w-1/3 py-4 "
+            style={{ height: "100vh" }}
             // style={{ maxHeight: "80vh" }}
           >
             <div className="flex items-center justify-between mb-2 px-4 pb-4">
@@ -179,74 +180,71 @@ function CartComponent({ company }) {
                     return (
                       <div
                         key={"item_" + i}
-                        className="flex justify-between items-center min-h-16 mb-2 border-b-slate-200 border-0 border-b"
+                        className="flex justify-between items-center min-h-16 mb-2 pb-2 border-b-slate-200 border-0 border-b"
                       >
-                        <div className="w-14 relative peh-14">
+                        <div className="w-2/12 relative peh-14">
                           <ProductImage
                             product={item.product}
                             width={56}
                             height={56}
                           />
                         </div>
-                        <div className="w-full h-full ml-2 flex-col flex">
+                        <div className="w-10/12 h-full ml-2 flex-col flex">
                           <div className="flex justify-between">
                             <span className="truncate mr-4">
                               {item.quantity} &times; {item.product.name}
                             </span>
                             <span className="font-semibold">
-                              {item.price} {company.currency.symbol}
+                              {item.price} {company.currency.symbol[0]}
                             </span>
                           </div>
+
                           <div className="flex justify-between">
-                            <div className="variants">
-                              <span className="">
-                                {item.complement.length > 0 ? (
-                                  item.complement.map((_item) => {
-                                    const [key, value] =
-                                      Object.entries(_item)[0];
-                                    return (
-                                      <small className="block" key={key}>
-                                        {key}: {value?.join(", ")}
-                                      </small>
-                                    );
-                                  })
-                                ) : (
-                                  <></>
-                                )}
-                              </span>
+                            <div className="variants w-full truncate ">
+                              {item.complement.length > 0 &&
+                                item.complement.map((_item) => {
+                                  const [key, value] = Object.entries(_item)[0];
+                                  return (
+                                    <small className="block truncate" key={key}>
+                                      {key}: {value?.join(", ")}
+                                    </small>
+                                  );
+                                })}
                             </div>
-                            <div className=" flex justify-between w-16  bg-white rounded-md overflow-hidden">
-                              <span
-                                onClick={() => {
-                                  dispatch({
-                                    type: "add_product",
-                                    payload: {
-                                      ...item,
-                                      quantity: -1,
-                                    },
-                                  });
-                                }}
-                                className="w-6 h-6 flex justify-center items-center cursor-pointer hover:bg-slate-100"
-                              >
-                                -
-                              </span>
-                              <span className="w-6 h-6 flex justify-center items-center">
-                                {item.quantity}
-                              </span>
-                              <span
-                                onClick={() => {
-                                  dispatch({
-                                    type: "add_product",
-                                    payload: {
-                                      ...item,
-                                      quantity: 1,
-                                    },
-                                  });
-                                }}
-                                className="w-6 h-6 flex justify-center items-center cursor-pointer hover:bg-slate-100"
-                              >
-                                +
-                              </span>
+                            <div className="text-right flex justify-end">
+                              <div className=" flex justify-between w-16  bg-white rounded-md overflow-hidden">
+                                <span
+                                  onClick={() => {
+                                    dispatch({
+                                      type: "add_product",
+                                      payload: {
+                                        ...item,
+                                        quantity: -1,
+                                      },
+                                    });
+                                  }}
+                                  className="w-6 h-6 flex justify-center items-center cursor-pointer hover:bg-slate-100"
+                                >
+                                  -
+                                </span>
+                                <span className="w-6 h-6 flex justify-center items-center">
+                                  {item.quantity}
+                                </span>
+                                <span
+                                  onClick={() => {
+                                    dispatch({
+                                      type: "add_product",
+                                      payload: {
+                                        ...item,
+                                        quantity: 1,
+                                      },
+                                    });
+                                  }}
+                                  className="w-6 h-6 flex justify-center items-center cursor-pointer hover:bg-slate-100"
+                                >
+                                  +
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="note">

@@ -22,12 +22,12 @@ export default function Error404({ company }) {
     );
   else
     return (
-      <div className="bg-primary-light h-screen w-screen flex justify-center items-center flex-col">
+      <div className="p-5 bg-primary-light h-screen w-screen flex justify-center items-center flex-col">
         <h1 className="text-9xl my-9">404</h1>
         <h2 className="text-4xl text-center my-5">
           Désolé, cette entreprise n'existe pas ou n'est plus disponible.
         </h2>
-        <p>
+        <p className="text-center">
           Créez votre propre boutique en ligne avec{" "}
           <a
             className="underline text-primary"
