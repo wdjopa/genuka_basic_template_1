@@ -35,7 +35,6 @@ function Stories({ company }) {
             onClick={() => {
               setIsFullscreen(true);
               setCurrentIndex(i);
-              console.log("index", i);
             }}
             key={media.id + i}
             src={media.thumb}
