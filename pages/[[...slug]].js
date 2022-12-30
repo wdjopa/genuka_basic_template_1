@@ -84,7 +84,6 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const url = req.headers.host;
   try {
-    console.log(url);
     result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
     company = await result.json();
     if (!company.id) throw new Error(company);
@@ -94,13 +93,27 @@ export async function getServerSideProps(context) {
       },
     };
   } catch (error) {
-    console.log(error);
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
-      props: {},
-    };
+    try {
+      result = await fetch(
+        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}`
+      );
+      company = await result.json();
+      if (!company.id) throw new Error(company);
+      return {
+        props: {
+          company,
+        },
+      };
+    } catch (error) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/404",
+        },
+        props: {
+          company,
+        },
+      };
+    }
   }
 }

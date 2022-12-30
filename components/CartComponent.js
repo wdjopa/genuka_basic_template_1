@@ -75,14 +75,14 @@ function CartComponent({ company }) {
         return {
           ...item,
           id: item.product.id,
-          quantity: item.product.id,
-          price: item.product.id,
+          quantity: item.quantity,
+          price: item.price,
           properties: item.variants.map((v) => {
             return {
               [v.name]: v.options.map((o) => o.name),
             };
           }),
-          complement: item.complement,
+          complement: JSON.stringify(item.complement),
           note: item.note,
         };
       }),

@@ -74,6 +74,11 @@ function Products({ company }) {
 
   const addProductToCart = (productInCart) => {
     dispatch({ type: "add_product", payload: productInCart });
+    dispatch({
+      type: "notification",
+      payload: "Le produit a bien été ajouté",
+      color: "red",
+    });
   };
 
   const removeProductFromCart = (product) => {

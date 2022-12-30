@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { Component, useState } from "react";
-
+import { renderer, tester } from "../components/Stories/Renderer";
 import ReactStories, { WithHeader } from "react-insta-stories";
 
 function Stories({ company }) {
@@ -9,6 +9,23 @@ function Stories({ company }) {
   const medias = company.medias.filter(
     (media) => media.collection_name == "stories"
   );
+  const stories = medias.map((m) => ({
+    url: m.link,
+    type: m.mime_type.includes("video") ? "video" : "image",
+    header: {
+      heading: company.name,
+      subheading: company.description,
+      profileImage: company.logo,
+    },
+    duration: m.mime_type.includes("video") ? undefined : 10000,
+    storyStyles: {
+      width: "100%",
+      maxWidth: "10%",
+      maxHeight: "100%",
+      margin: "auto",
+      objectFit: "contain",
+    },
+  }));
   return (
     <div className="flex relative overflow-x-auto justify-start md:justify-center pb-2 mb-2 py-2 w-full">
       {medias.map((media, i) => {
@@ -24,6 +41,15 @@ function Stories({ company }) {
             alt={""}
             height={56}
             width={56}
+            style={{
+              height: 56,
+              width: 56,
+              minWidth: 56,
+              minHeight: 56,
+              maxWidth: 56,
+              maxHeight: 56,
+              objectFit: "cover",
+            }}
             className="cursor-pointer mr-2 rounded-full border-2 border-primary  bg-white object-cover"
           />
         );
@@ -40,22 +66,15 @@ function Stories({ company }) {
             onAllStoriesEnd={() => {
               setIsFullscreen(false);
             }}
-            stories={medias.map((m) => ({
-              url: m.link,
-              type: m.mime_type.includes("video") ? "video" : "image",
-              header: {
-                heading: company.name,
-                subheading: company.description,
-                profileImage: company.logo,
+            renderers={[
+              {
+                renderer,
+                tester,
               },
-              storyStyles: {
-                width: "100%",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                margin: "auto",
-              },
-            }))}
-            defaultInterval={5000}
+            ]}
+            loop={true}
+            stories={stories}
+            defaultInterval={10000}
             width={432}
             height={"100%"}
             currentIndex={currentIndex}

@@ -262,7 +262,7 @@ const ProductModal = ({
                           (canOrder
                             ? "border-primary bg-primary  text-white"
                             : "bg-slate-100 text-slate-400") +
-                          " btn border-2 my-2 rounded-md w-full px-4 py-2"
+                          " hidden btn border-2 my-2 rounded-md w-full px-4 py-2"
                         }
                       >
                         Acheter maintenant
