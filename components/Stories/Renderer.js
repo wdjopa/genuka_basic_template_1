@@ -17,7 +17,6 @@ export const rendererVideo = ({
     ...stylesVideo.storyContent,
     ...(storyStyles || {}),
     objectFit: "contain",
-    backgroundColor: "red",
     justifyContent: "center",
   };
 
@@ -130,7 +129,6 @@ export const rendererImage = ({ story, action, isPaused, config }) => {
     ...styles.storyContent,
     ...(storyStyles || {}),
     objectFit: "contain",
-    backgroundColor: "red",
     justifyContent: "center",
   };
 
