@@ -129,7 +129,7 @@ function Products({ company, css }) {
           addToCart={addProductToCart}
           setIsOpen={(state) => {
             const slug = router.query.slug;
-            if (slug.includes("collections")) {
+            if (slug && slug.includes("collections")) {
               router.push("/collections/" + router.query.slug[1], null, {
                 shallow: true,
               });

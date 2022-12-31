@@ -47,6 +47,7 @@ export const getMetaData = ({ css, company, product, collection }) => {
     return (
       <>
         <style>{css}</style>
+        <meta charset="utf-8" />
         <title>{company.name + " - " + company.description}</title>
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
@@ -90,7 +91,7 @@ export const getMetaData = ({ css, company, product, collection }) => {
             company.logo
               ? company.logo
               : company.medias && company.medias.length > 0
-              ? company.medias[0].link
+              ? company.medias[0].thumb
               : ""
           }
         />
@@ -102,6 +103,7 @@ export const getMetaData = ({ css, company, product, collection }) => {
     return (
       <>
         <style>{css}</style>
+        <meta charset="utf-8" />
         <title>
           {company.name +
             " | " +
@@ -175,8 +177,9 @@ export const getMetaData = ({ css, company, product, collection }) => {
             " | " +
             product.name +
             " - " +
-            product.description.replace(/<[^>]*>?/gm, "")}
+            product?.description?.replace(/<[^>]*>?/gm, "")}
         </title>
+        <meta charset="utf-8" />
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta

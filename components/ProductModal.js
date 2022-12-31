@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useGenukaDispatch, useGenukaState } from "../utils/genuka.store";
 import ToggleTitle from "./ToggleTitle";
@@ -15,18 +16,26 @@ function MediaReader({ mainMedia, company }) {
   }, [mainMedia]);
 
   return isAnImage ? (
-    <img
-      className={"h-96 w-max object-contain inline-block border-2 rounded-md"}
-      style={{
-        bgColor: "#55555511",
-        borderColor: "transparent",
-      }}
-      src={media}
-      onError={({ currentTarget }) => {
-        setMedia("/assets/placeholder.png");
-      }}
-      alt={"Picture of " + company.name}
-    />
+    <div
+      className={
+        " h-96 w-full object-contain relative block border-2 rounded-md"
+      }
+    >
+      <Image
+        className={"inline-block "}
+        style={{
+          bgColor: "#55555511",
+          borderColor: "transparent",
+          objectFit: "contain",
+        }}
+        fill={true}
+        src={media}
+        onError={({ currentTarget }) => {
+          setMedia("/assets/placeholder.png");
+        }}
+        alt={"Picture of " + company.name}
+      />
+    </div>
   ) : (
     <video
       style={{ height: "400px", background: "black", borderRadius: "5px" }}
@@ -50,15 +59,18 @@ function MediasBlock({ company, product }) {
 
   if (!mainMedia)
     return (
-      <div>
-        <img
-          className={
-            " h-96 w-96 object-contain inline-block border-2 rounded-md"
-          }
+      <div
+        className={" h-96 w-96 object-contain inline-block border-2 rounded-md"}
+      >
+        <Image
+          className=""
           style={{
             bgColor: "#55555511",
             borderColor: "transparent",
+            objectFit: "contain",
           }}
+          width={384}
+          height={384}
           src={"/assets/placeholder.png"}
           alt={product.name}
         />
@@ -69,19 +81,21 @@ function MediasBlock({ company, product }) {
       {<MediaReader mainMedia={mainMedia} company={company} />}
       <div className="flex py-2 overflow-x-auto">
         {product.medias.map((media, i) => {
+          console.log({ media });
           return (
             <div
               className="inline-block min-w-max cursor-pointer"
-              key={media.id + i}
+              key={product.id + media.id + "product_modal"}
             >
-              <img
-                className={
-                  " h-16 w-16 object-contain inline-block border-2 rounded-sm"
-                }
+              <Image
+                className={" h-16 w-16 inline-block border-2 rounded-sm"}
+                width={64}
+                height={64}
                 style={{
                   bgColor: mainMedia === media.link ? "#EEE" : "#55555511",
                   borderColor:
                     mainMedia === media.link ? "black" : "transparent",
+                  objectFit: "contain",
                 }}
                 onClick={() => {
                   setMainMedia(media.link);

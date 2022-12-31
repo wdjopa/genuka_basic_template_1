@@ -38,8 +38,7 @@ export default function Home({
   const router = useRouter();
   const { slug, ...pagination } = router.query;
   const dispatch = useGenukaDispatch();
-  const { collection_product_list_pagination, product, collection } =
-    useGenukaState();
+  const { collection_product_list_pagination } = useGenukaState();
 
   useEffect(() => {
     dispatch({ type: "company", payload: company });
@@ -80,18 +79,6 @@ export default function Home({
       });
     }
   }, [slug, company]);
-
-  // useEffect(() => {
-  //   if (product || collection) {
-  //     setMeta(getMetaData({ company, product, collection }));
-  //   }
-  // }, [collection, product]);
-
-  // useEffect(() => {
-  //   if (collection || product) {
-  //     setMeta(getMetaData(css, company, product, collection));
-  //   }
-  // }, [collection, product]);
 
   return (
     <Layout head={meta} company={company}>
