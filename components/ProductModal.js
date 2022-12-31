@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { useGenukaDispatch, useGenukaState } from "../utils/genuka.store";
 import ToggleTitle from "./ToggleTitle";
@@ -55,7 +56,7 @@ function MediasBlock({ company, product }) {
             bgColor: "#55555511",
             borderColor: "transparent",
           }}
-          src={"https://via.placeholder.com/400/400"}
+          src={"/assets/placeholder.png"}
           alt={product.name}
         />
       </div>
@@ -85,8 +86,7 @@ function MediasBlock({ company, product }) {
                 src={media.thumb}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
-                  currentTarget.src =
-                    "https://via.placeholder.com/70/000000?text=...";
+                  currentTarget.src = "/assets/placeholder.png";
                 }}
                 alt={product.name}
               />
@@ -105,6 +105,7 @@ const ProductModal = ({
   isOpen,
   setIsOpen,
   addToCart,
+  css,
 }) => {
   const [qty, setQty] = useState(1);
   const dispatch = useGenukaDispatch();
@@ -163,10 +164,110 @@ const ProductModal = ({
           requiredVariantsSlug.includes(v.slug) &&
           v.options.length == v.max_choices
       );
-  console.log({ _productInCart, canOrder, productInCart });
 
+  const head = (
+    <Head>
+      <style>{css}</style>
+      <title>
+        {product.name + " - " + product.description.replace(/<[^>]*>?/gm, "")}
+      </title>
+      <link
+        rel="favicon"
+        href={
+          product.medias?.[0]
+            ? product.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : ""
+        }
+      />
+      <link
+        rel="icon"
+        href={
+          product.medias?.[0]
+            ? product.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : ""
+        }
+      />
+      <meta
+        name="description"
+        content={product?.description?.replace(/<[^>]*>?/gm, "")}
+      />
+      <meta
+        name="keywords"
+        content={product?.description
+          ?.replace(/<[^>]*>?/gm, "")
+          .split(" ")
+          .join(", ")}
+      />
+      <meta name="author" content={"Genuka for " + company.name} />
+      <meta name="robots" content="index, follow" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-title" content={product.name} />
+      <meta name="msapplication-TileColor" content="#222" />
+      <meta
+        name="msapplication-TileImage"
+        content={
+          product.medias?.[0]
+            ? product.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
+            : ""
+        }
+      />
+      <meta name="theme-color" content="#222" />
+      <meta property="og:title" content={product.name} />
+      <meta
+        property="og:description"
+        content={product?.description?.replace(/<[^>]*>?/gm, "")}
+      />
+      <meta
+        property="og:image"
+        content={
+          product.medias?.[0]
+            ? product.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
+            : ""
+        }
+      />
+
+      <meta property="og:type" content="product" />
+      <meta property="og:site_name" content={product.name} />
+      <meta itemprop="name" content={product.name} />
+      <meta itemprop="description" content={product.description} />
+      <meta itemprop="price" content={product.discounted_price} />
+      <meta
+        itemprop="availability"
+        content={product.infinite_stocks ? "En stock" : product.stocks}
+      />
+      <meta itemprop="price" content={product.discounted_price} />
+      <meta itemprop="priceCurrency" content={company.currency.code} />
+      <meta
+        itemprop="image"
+        content={
+          product.medias?.[0]
+            ? product.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
+            : ""
+        }
+      />
+    </Head>
+  );
   return (
     <div>
+      {head}
       {isOpen && (
         <div className="fixed z-50 bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center ">
           <div

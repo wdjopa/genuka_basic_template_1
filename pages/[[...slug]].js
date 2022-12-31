@@ -1,10 +1,18 @@
 // import Layout from "../partials/Layout";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import Layout from "../partials/Layout";
 import Shop from "../partials/Shop";
 import Stories from "../partials/Stories";
 import { genuka_api_2021_10 } from "../utils/configs";
-import { useGenukaDispatch } from "../utils/genuka.store";
+import {
+  getCollectionProducts,
+  getProduct,
+  getProducts,
+  useGenukaDispatch,
+  useGenukaState,
+} from "../utils/genuka.store";
+import { getMetaData } from "../utils/helpers";
 
 export default function Home({ company }) {
   const css = `
@@ -71,14 +79,53 @@ export default function Home({ company }) {
       <meta property="og:site_name" content={company.name} />
     </>
   );
+  const router = useRouter();
+  const { slug, ...pagination } = router.query;
   const dispatch = useGenukaDispatch();
+  const { collection_product_list_pagination, product, collection } =
+    useGenukaState();
+
   useEffect(() => {
     dispatch({ type: "company", payload: company });
-  }, [company]);
+    let gotProducts = false;
+    if (slug) {
+      switch (slug[0]) {
+        case "collections":
+          getCollectionProducts(dispatch, company.id, slug[1], {
+            ...collection_product_list_pagination,
+            ...pagination,
+            page: pagination.current_page,
+          });
+          gotProducts = true;
+          if (slug[2] == "products") {
+            getProduct(dispatch, slug[3]);
+          }
+          break;
+        case "products":
+          getProduct(dispatch, slug[1]);
+          break;
+        case "search":
+          break;
+      }
+    }
+    if (!gotProducts) {
+      getProducts(dispatch, company.id, {
+        ...collection_product_list_pagination,
+        ...pagination,
+        page: pagination.current_page,
+      });
+    }
+  }, [slug, company]);
+
+  // useEffect(() => {
+  //   if (product || collection) {
+  //     setMeta(getMetaData({ company, product, collection }));
+  //   }
+  // }, [collection, product]);
   return (
     <Layout head={meta} company={company}>
       <Stories company={company} />
-      <Shop company={company} />
+      <Shop css={css} company={company} />
     </Layout>
   );
 }

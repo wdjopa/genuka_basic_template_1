@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -29,13 +30,15 @@ function ProductCard({
       href={url}
     >
       {product.medias.length > 0 ? (
-        <img
+        <Image
           src={product.medias[0].thumb}
           alt={"Picture of " + product.name}
           className="object-cover h-full w-full"
+          fill={true}
         />
       ) : (
         <img
+          fill={true}
           src={defaultImage}
           alt={"Picture of " + product.name}
           className="object-fit self-center items-center object-center"

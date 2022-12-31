@@ -7,12 +7,13 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
+import Head from "next/head";
 
 const Pagination = dynamic(() => import("./Pagination"));
 const ProductCard = dynamic(() => import("./ProductCard"));
 const ProductModal = dynamic(() => import("./ProductModal"));
 
-function Products({ company }) {
+function Products({ company, css }) {
   const {
     search_mode,
     searched_products,
@@ -96,9 +97,91 @@ function Products({ company }) {
   if (!_products || !company) {
     return <></>;
   }
-
+  const head = collection && (
+    <Head>
+      <style>{css}</style>
+      <title key="title">
+        {collection.name + " - " + collection.description}
+      </title>
+      <link
+        key="favicon"
+        rel="favicon"
+        href={
+          collection.medias?.[0]
+            ? collection.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : ""
+        }
+      />
+      <link
+        key="icon"
+        rel="icon"
+        href={
+          collection.medias?.[0]
+            ? collection.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : ""
+        }
+      />
+      <meta
+        key="description"
+        name="description"
+        content={collection?.description?.replace(/<[^>]*>?/gm, "")}
+      />
+      <meta
+        key="keywords"
+        name="keywords"
+        content={collection?.description
+          ?.replace(/<[^>]*>?/gm, "")
+          .split(" ")
+          .join(", ")}
+      />
+      <meta name="author" content={"Genuka for " + company.name} />
+      <meta name="robots" content="index, follow" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-title" content={collection.name} />
+      <meta name="msapplication-TileColor" content="#222" />
+      <meta
+        name="msapplication-TileImage"
+        content={
+          collection.medias?.[0]
+            ? collection.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
+            : ""
+        }
+      />
+      <meta name="theme-color" content="#222" />
+      <meta property="og:title" content={collection.name} />
+      <meta
+        property="og:description"
+        content={collection?.description?.replace(/<[^>]*>?/gm, "")}
+      />
+      <meta
+        property="og:image"
+        content={
+          collection.medias?.[0]
+            ? collection.medias[0].thumb
+            : company.logo
+            ? company.logo
+            : company.medias && company.medias.length > 0
+            ? company.medias[0].link
+            : ""
+        }
+      />
+      <meta property="og:type" content="collection" />
+      <meta property="og:site_name" content={collection.name} />
+    </Head>
+  );
   return (
     <>
+      {head}
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 sm:grid-flow-row ">
         {_products.map((product) => (
           <ProductCard
@@ -114,13 +197,14 @@ function Products({ company }) {
               removeProductFromCart(product, variants || []);
             }}
             currency={company.currency}
-            defaultImage={company.logo}
+            defaultImage={"/assets/placeholder.png"}
             seeDetails={openDetails}
           />
         ))}
       </div>
       {productDetailed && (
         <ProductModal
+          css={css}
           isOpen={modalOpen}
           company={company}
           currency={company.currency}
