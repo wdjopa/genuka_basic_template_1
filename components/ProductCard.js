@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { useGenukaState } from "../utils/genuka.store";
 
 function ProductCard({
@@ -14,6 +14,9 @@ function ProductCard({
   addToCart,
   removeFromCart,
 }) {
+  const [srcImage, setSrcImage] = useState(
+    product.medias.length > 0 ? product.medias[0].thumb : defaultImage
+  );
   const discount = (1 - product.discounted_price / product.price) * 100;
   const { productInCart } = useGenukaState();
   const router = useRouter();
@@ -29,21 +32,17 @@ function ProductCard({
       onClick={() => seeDetails(product)}
     >
       <Link className="block" href={url}>
-        {product.medias.length > 0 ? (
-          <Image
-            src={product.medias[0].thumb}
-            alt={"Picture of " + product.name}
-            className="object-cover h-full w-full"
-            fill={true}
-          />
-        ) : (
-          <img
-            fill={true}
-            src={defaultImage}
-            alt={"Picture of " + product.name}
-            className="object-fit self-center items-center object-center"
-          />
-        )}
+        <Image
+          src={srcImage}
+          alt={"Picture of " + product.name}
+          className="object-cover h-full w-full"
+          fill={true}
+          blurDataURL={defaultImage}
+          placeholder="blur"
+          onError={(e) => {
+            setSrcImage(defaultImage);
+          }}
+        />
       </Link>
       {discount > 0 && (
         <div className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full">
