@@ -16,7 +16,7 @@ function Loader({ company }) {
           cx="24"
           cy="24"
           r="20"
-          stroke={company.settings?.main_color ?? "#FF9900"}
+          stroke={company.settings?.default_template?.main_color ?? "#FF9900"}
           strokeWidth="4"
         />
       </svg>

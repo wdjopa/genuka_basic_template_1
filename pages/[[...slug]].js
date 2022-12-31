@@ -9,8 +9,12 @@ import { useGenukaDispatch } from "../utils/genuka.store";
 export default function Home({ company }) {
   const css = `
     :root {
-      --primary-color: ${company.settings?.main_color ?? "#FF9900"};
-      --background-color-light: ${company.settings?.main_color ?? "#FF9900"}07;
+      --primary-color: ${
+        company.settings?.default_template?.main_color ?? "#FF9900"
+      };
+      --background-color-light: ${
+        company.settings?.default_template?.main_color ?? "#FF9900"
+      }07;
     }
   `;
   const meta = (
