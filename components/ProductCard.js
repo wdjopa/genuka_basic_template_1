@@ -24,26 +24,31 @@ function ProductCard({
     "/products/" +
     product.slug;
   return (
-    <Link
+    <div
       className="rounded-md h-64 overflow-hidden relative"
       // onClick={() => seeDetails(product)}
-      href={url}
     >
-      {product.medias.length > 0 ? (
-        <Image
-          src={product.medias[0].thumb}
-          alt={"Picture of " + product.name}
-          className="object-cover h-full w-full"
-          fill={true}
-        />
-      ) : (
-        <img
-          fill={true}
-          src={defaultImage}
-          alt={"Picture of " + product.name}
-          className="object-fit self-center items-center object-center"
-        />
-      )}
+      <Link
+        className="rounded-md h-64 overflow-hidden relative"
+        // onClick={() => seeDetails(product)}
+        href={url}
+      >
+        {product.medias.length > 0 ? (
+          <Image
+            src={product.medias[0].thumb}
+            alt={"Picture of " + product.name}
+            className="object-cover h-full w-full"
+            fill={true}
+          />
+        ) : (
+          <img
+            fill={true}
+            src={defaultImage}
+            alt={"Picture of " + product.name}
+            className="object-fit self-center items-center object-center"
+          />
+        )}
+      </Link>
       {discount > 0 && (
         <div className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full">
           -{Math.ceil(discount)}%
@@ -129,7 +134,7 @@ function ProductCard({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

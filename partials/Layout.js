@@ -70,7 +70,7 @@ function Layout({ company, children, head }) {
   const { loading, error } = useGenukaState();
   return (
     <div className="container md:px-6 max-w-4xl px-4 mx-auto">
-      <Head>{head}</Head>
+      {head && <Head>{head}</Head>}
       <Header company={company} />
       <main className="mt-4 mb-10 ">{children}</main>
       <Footer company={company} />

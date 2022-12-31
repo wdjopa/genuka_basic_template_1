@@ -14,7 +14,11 @@ import {
 } from "../utils/genuka.store";
 import { getMetaData } from "../utils/helpers";
 
-export default function Home({ company }) {
+export default function Home({
+  company,
+  productFromServer,
+  collectionFromServer,
+}) {
   const css = `
     :root {
       --primary-color: ${
@@ -25,59 +29,13 @@ export default function Home({ company }) {
       }07;
     }
   `;
-  const meta = (
-    <>
-      <style>{css}</style>
-      <title>{company.name + " - " + company.description}</title>
-      <link rel="favicon" href={company.logo ? company.logo : ""} />
-      <link rel="icon" href={company.logo ? company.logo : ""} />
-      <meta
-        name="description"
-        content={company?.description?.replace(/<[^>]*>?/gm, "")}
-      />
-      <meta
-        name="keywords"
-        content={company?.description
-          ?.replace(/<[^>]*>?/gm, "")
-          .split(" ")
-          .join(", ")}
-      />
-      <meta name="author" content={"Genuka for " + company.name} />
-      <meta name="robots" content="index, follow" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-      <meta name="apple-mobile-web-app-title" content={company.name} />
-      <meta name="msapplication-TileColor" content="#222" />
-      <meta
-        name="msapplication-TileImage"
-        content={
-          company.logo
-            ? company.logo
-            : company.medias && company.medias.length > 0
-            ? company.medias[0].link
-            : ""
-        }
-      />
-      <meta name="theme-color" content="#222" />
-      <meta property="og:title" content={company.name} />
-      <meta
-        property="og:description"
-        content={company?.description?.replace(/<[^>]*>?/gm, "")}
-      />
-      <meta
-        property="og:image"
-        content={
-          company.logo
-            ? company.logo
-            : company.medias && company.medias.length > 0
-            ? company.medias[0].link
-            : ""
-        }
-      />
-      <meta property="og:type" content="company" />
-      <meta property="og:site_name" content={company.name} />
-    </>
+  const [meta, setMeta] = useState(
+    getMetaData({
+      css,
+      company,
+      product: productFromServer,
+      collection: collectionFromServer,
+    })
   );
   const router = useRouter();
   const { slug, ...pagination } = router.query;
@@ -98,11 +56,19 @@ export default function Home({ company }) {
           });
           gotProducts = true;
           if (slug[2] == "products") {
-            getProduct(dispatch, slug[3]);
+            if (productFromServer) {
+              dispatch({ type: "product_success", payload: productFromServer });
+            } else {
+              getProduct(dispatch, slug[3]);
+            }
           }
           break;
         case "products":
-          getProduct(dispatch, slug[1]);
+          if (productFromServer) {
+            dispatch({ type: "product_success", payload: productFromServer });
+          } else {
+            getProduct(dispatch, slug[1]);
+          }
           break;
         case "search":
           break;
@@ -122,6 +88,13 @@ export default function Home({ company }) {
   //     setMeta(getMetaData({ company, product, collection }));
   //   }
   // }, [collection, product]);
+
+  // useEffect(() => {
+  //   if (collection || product) {
+  //     setMeta(getMetaData(css, company, product, collection));
+  //   }
+  // }, [collection, product]);
+
   return (
     <Layout head={meta} company={company}>
       <Stories company={company} />
@@ -131,18 +104,13 @@ export default function Home({ company }) {
 }
 
 export async function getServerSideProps(context) {
-  let company, result;
+  let company, result, collection, product;
   const { req } = context;
   const url = req.headers.host;
   try {
     result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
     company = await result.json();
     if (!company.id) throw new Error(company);
-    return {
-      props: {
-        company,
-      },
-    };
   } catch (error) {
     try {
       result = await fetch(
@@ -150,11 +118,6 @@ export async function getServerSideProps(context) {
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
-      return {
-        props: {
-          company,
-        },
-      };
     } catch (error) {
       return {
         redirect: {
@@ -167,4 +130,34 @@ export async function getServerSideProps(context) {
       };
     }
   }
+  const path = req.url;
+  const slug = path.split("/");
+  slug.shift();
+  let props = {
+    company,
+  };
+  if (slug.length > 1) {
+    switch (slug[0]) {
+      case "collections":
+        if (slug[2] == "products") {
+          const response = await fetch(
+            `${genuka_api_2021_10}/products/slug/${slug[3]}`
+          );
+          product = await response.json();
+        }
+        break;
+      case "products":
+        const response = await fetch(
+          `${genuka_api_2021_10}/products/slug/${slug[1]}`
+        );
+        product = await response.json();
+        break;
+      case "search":
+        break;
+    }
+    props.productFromServer = product;
+  }
+  return {
+    props,
+  };
 }

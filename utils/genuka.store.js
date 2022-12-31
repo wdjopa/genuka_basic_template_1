@@ -862,6 +862,24 @@ function commentReducer(state, action) {
       localStorage.setItem("cart", JSON.stringify(action.payload));
       return { ...state, cart: action.payload, current_order: undefined };
     }
+    case "remove_product": {
+      let cart = state.cart;
+      const productCart = {
+        add_to_cart_date: new Date(),
+        note: "",
+        complement: "",
+        ...action.payload,
+      };
+      cart.items = cart.items.map((item) => {
+        if (item.product.id === productCart.product.id) {
+          return { ...item, quantity: item.quantity - productCart.quantity };
+        }
+        return item;
+      });
+      cart = { ...cart, items: cart.items.filter((item) => item.quantity > 0) };
+      localStorage.setItem("cart", JSON.stringify(cart));
+      return { ...state, cart };
+    }
     case "add_product": {
       let cart = state.cart;
       const productCart = {
@@ -880,7 +898,6 @@ function commentReducer(state, action) {
             JSON.stringify(item.complement) ===
               JSON.stringify(productCart.complement)
         ).length > 0;
-      console.log({ productCart, alreadyExistsInCart });
       if (alreadyExistsInCart) {
         cart.items = cart.items.map((item) => {
           if (
@@ -893,7 +910,6 @@ function commentReducer(state, action) {
           }
           return item;
         });
-        console.log("productInCart", cart);
       } else {
         cart.items.push(productCart);
       }
