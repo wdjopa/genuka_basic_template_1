@@ -102,27 +102,15 @@ export const getMetaData = ({ css, company, product, collection }) => {
     return (
       <>
         <style>{css}</style>
-        <title>{collection.name + " - " + collection.description}</title>
-        <link
-          rel="favicon"
-          href={
-            collection.medias?.[0]
-              ? collection.medias[0].thumb
-              : company.logo
-              ? company.logo
-              : ""
-          }
-        />
-        <link
-          rel="icon"
-          href={
-            collection.medias?.[0]
-              ? collection.medias[0].thumb
-              : company.logo
-              ? company.logo
-              : ""
-          }
-        />
+        <title>
+          {company.name +
+            " | " +
+            collection.name +
+            " - " +
+            collection.description}
+        </title>
+        <link rel="favicon" href={company.logo ? company.logo : ""} />
+        <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
           name="description"
           content={collection?.description?.replace(/<[^>]*>?/gm, "")}
@@ -154,7 +142,10 @@ export const getMetaData = ({ css, company, product, collection }) => {
           }
         />
         <meta name="theme-color" content="#222" />
-        <meta property="og:title" content={collection.name} />
+        <meta
+          property="og:title"
+          content={company.name + " | " + collection.name}
+        />
         <meta
           property="og:description"
           content={collection?.description?.replace(/<[^>]*>?/gm, "")}
@@ -171,7 +162,7 @@ export const getMetaData = ({ css, company, product, collection }) => {
               : ""
           }
         />
-        <meta property="og:type" content="collection" />
+        <meta property="og:type" content="product's collection" />
         <meta property="og:site_name" content={collection.name} />
       </>
     );
@@ -180,28 +171,14 @@ export const getMetaData = ({ css, company, product, collection }) => {
       <>
         <style>{css}</style>
         <title>
-          {product.name + " - " + product.description.replace(/<[^>]*>?/gm, "")}
+          {company.name +
+            " | " +
+            product.name +
+            " - " +
+            product.description.replace(/<[^>]*>?/gm, "")}
         </title>
-        <link
-          rel="favicon"
-          href={
-            product.medias?.[0]
-              ? product.medias[0].thumb
-              : company.logo
-              ? company.logo
-              : ""
-          }
-        />
-        <link
-          rel="icon"
-          href={
-            product.medias?.[0]
-              ? product.medias[0].thumb
-              : company.logo
-              ? company.logo
-              : ""
-          }
-        />
+        <link rel="favicon" href={company.logo ? company.logo : ""} />
+        <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
           name="description"
           content={product?.description?.replace(/<[^>]*>?/gm, "")}
@@ -218,7 +195,10 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="apple-mobile-web-app-title" content={product.name} />
+        <meta
+          name="apple-mobile-web-app-title"
+          content={company.name + " | " + product.name}
+        />
         <meta name="msapplication-TileColor" content="#222" />
         <meta
           name="msapplication-TileImage"

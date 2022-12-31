@@ -29,14 +29,12 @@ export default function Home({
       }07;
     }
   `;
-  const [meta, setMeta] = useState(
-    getMetaData({
-      css,
-      company,
-      product: productFromServer,
-      collection: collectionFromServer,
-    })
-  );
+  const meta = getMetaData({
+    css,
+    company,
+    product: productFromServer,
+    collection: collectionFromServer,
+  });
   const router = useRouter();
   const { slug, ...pagination } = router.query;
   const dispatch = useGenukaDispatch();
