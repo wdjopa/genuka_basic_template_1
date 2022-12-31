@@ -128,7 +128,28 @@ function Products({ company, css }) {
           product={productDetailed}
           addToCart={addProductToCart}
           setIsOpen={(state) => {
-            router.back();
+            const slug = router.query.slug;
+            if (slug.includes("collections")) {
+              router.push("/collections/" + router.query.slug[1], null, {
+                shallow: true,
+              });
+            } else {
+              router.push("", null, { shallow: true });
+            }
+            // if (router.back()) {
+            //   alert("back");
+            // }
+            // router.push(
+
+            //     ? router.query.slug.join("/")
+            //     : "",
+            //   null,
+            //   { shallow: true }
+            // );
+            // // router.push({ query: { ...router.query, ...query } }, undefined, {
+
+            // // router.push();
+            // // router.back();
             setModalOpen(state);
           }}
         />
