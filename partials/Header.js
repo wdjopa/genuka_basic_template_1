@@ -12,15 +12,15 @@ function Header({ company }) {
             width={60}
             height={60}
             src={company.logo}
-            alt={company.name}
+            alt={"Logo of " + company.name}
           />
         )}
-        <h2 className="ml-2 flex items-center">
+        <h1 className="ml-2 flex items-center">
           <span className="text-2xl font-semibold">{company.name}</span>
-        </h2>
+        </h1>
       </div>
       <div className="text-center">
-        <div>{company.description}</div>
+        <h2>{company.description}</h2>
       </div>
     </>
   );

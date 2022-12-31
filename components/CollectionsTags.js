@@ -37,8 +37,10 @@ function CollectionsTags({ company }) {
 
   useEffect(() => {
     console.log("getPaginatedCollections");
-    getPaginatedCollections(dispatch, company.id, collection_list_pagination);
-  }, []);
+    if (!collections_list) {
+      getPaginatedCollections(dispatch, company.id, collection_list_pagination);
+    }
+  }, [company]);
 
   useEffect(() => {
     if (collections_list && company)

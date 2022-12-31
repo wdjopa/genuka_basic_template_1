@@ -32,10 +32,6 @@
   font-style: normal;
 }
 
-:root {
-  --primary-color: #FF9900;
-  --background-color-light: #FF990007;
-}
 
 * {
   box-sizing: border-box;

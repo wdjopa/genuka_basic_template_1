@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import {
   getCollectionProducts,
@@ -6,9 +7,10 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
-import Pagination from "./Pagination";
-import ProductCard from "./ProductCard";
-import ProductModal from "./ProductModal";
+
+const Pagination = dynamic(() => import("./Pagination"));
+const ProductCard = dynamic(() => import("./ProductCard"));
+const ProductModal = dynamic(() => import("./ProductModal"));
 
 function Products({ company }) {
   const {

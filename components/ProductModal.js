@@ -4,7 +4,7 @@ import { useGenukaDispatch, useGenukaState } from "../utils/genuka.store";
 import ToggleTitle from "./ToggleTitle";
 import VariantsBlock from "./VariantsBlock";
 
-function MediaReader({ mainMedia }) {
+function MediaReader({ mainMedia, company }) {
   const [isAnImage, setIsAnImage] = useState(true);
   useEffect(() => {
     if (mainMedia) {
@@ -23,7 +23,7 @@ function MediaReader({ mainMedia }) {
       onError={({ currentTarget }) => {
         setIsAnImage(false);
       }}
-      alt={mainMedia}
+      alt={"Picture of " + company.name}
     />
   ) : (
     <video
@@ -35,7 +35,7 @@ function MediaReader({ mainMedia }) {
     />
   );
 }
-function MediasBlock({ product }) {
+function MediasBlock({ company, product }) {
   const [mainMedia, setMainMedia] = useState();
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function MediasBlock({ product }) {
     );
   return (
     <div className="flex flex-col px-2">
-      {<MediaReader mainMedia={mainMedia} />}
+      {<MediaReader mainMedia={mainMedia} company={company} />}
       <div className="flex py-2 overflow-x-auto">
         {product.medias.map((media, i) => {
           return (
@@ -194,7 +194,7 @@ const ProductModal = ({
               >
                 <div className="flex flex-wrap justify-between">
                   <div className="w-full sm:w-1/2">
-                    <MediasBlock product={product} />
+                    <MediasBlock product={product} company={company} />
                   </div>
                   <div className="w-full sm:w-1/2">
                     <div className="price my-3">

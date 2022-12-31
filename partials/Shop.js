@@ -1,10 +1,6 @@
 import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 import React, { useEffect } from "react";
-import CartComponent from "../components/CartComponent";
-import CollectionsTags from "../components/CollectionsTags";
-import OrderStatusPage from "../components/OrderStatutsPage";
-import Products from "../components/Products";
-import SearchBar from "../components/SearchBar";
 import {
   getCollectionProducts,
   getProduct,
@@ -13,6 +9,11 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
+
+const CartComponent = dynamic(() => import("../components/CartComponent"));
+const CollectionsTags = dynamic(() => import("../components/CollectionsTags"));
+const Products = dynamic(() => import("../components/Products"));
+const SearchBar = dynamic(() => import("../components/SearchBar"));
 
 function Shop({ company }) {
   const router = useRouter();
@@ -49,7 +50,8 @@ function Shop({ company }) {
         page: pagination.current_page,
       });
     }
-  }, [slug, company]);
+  }, [company]);
+
   const searchProduct = (searchTerm) => {
     if (searchTerm.length > 3) {
       searchProducts(dispatch, company.id, searchTerm);

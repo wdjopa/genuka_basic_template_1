@@ -38,7 +38,7 @@ function Stories({ company }) {
             }}
             key={media.id + i}
             src={media.thumb}
-            alt={""}
+            alt={"Story of " + company.name}
             height={56}
             width={56}
             style={{

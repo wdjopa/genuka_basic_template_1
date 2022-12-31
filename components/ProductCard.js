@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
 import { useGenukaState } from "../utils/genuka.store";
-import Modal from "./ProductModal";
 
 function ProductCard({
   quantityInCart,
@@ -14,10 +15,18 @@ function ProductCard({
 }) {
   const discount = (1 - product.discounted_price / product.price) * 100;
   const { productInCart } = useGenukaState();
+  const router = useRouter();
+  const url =
+    (router.query.slug && !router.query.slug.includes("products")
+      ? router.query.slug.join("/")
+      : "") +
+    "/products/" +
+    product.slug;
   return (
-    <div
+    <Link
       className="rounded-md h-64 overflow-hidden relative"
-      onClick={() => seeDetails(product)}
+      // onClick={() => seeDetails(product)}
+      href={url}
     >
       {product.medias.length > 0 ? (
         <img
@@ -117,7 +126,7 @@ function ProductCard({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
