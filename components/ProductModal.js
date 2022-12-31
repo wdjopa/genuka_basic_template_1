@@ -9,11 +9,14 @@ import VariantsBlock from "./VariantsBlock";
 function MediaReader({ mainMedia, company }) {
   const [isAnImage, setIsAnImage] = useState(true);
   const [media, setMedia] = useState(mainMedia);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (mainMedia) {
-      setIsAnImage(true);
+      setMedia(mainMedia);
+      setIsLoading(true);
+      setIsAnImage(mainMedia.mime_type.includes("image"));
     }
-  }, [mainMedia]);
+  }, [mainMedia.id]);
 
   return isAnImage ? (
     <div
@@ -23,13 +26,18 @@ function MediaReader({ mainMedia, company }) {
     >
       <Image
         className={"inline-block "}
+        unloadedContent={<img src="/assets/placeholder.png" alt="Loading" />}
         style={{
           bgColor: "#55555511",
           borderColor: "transparent",
           objectFit: "contain",
         }}
+        onLoad={() => {
+          setIsLoading(false);
+        }}
+        loading="eager"
         fill={true}
-        src={media}
+        src={media.link}
         onError={({ currentTarget }) => {
           setMedia("/assets/placeholder.png");
         }}
@@ -41,7 +49,7 @@ function MediaReader({ mainMedia, company }) {
       style={{ height: "400px", background: "black", borderRadius: "5px" }}
       controls
       autoPlay
-      src={media}
+      src={media.link}
       onError={(e) => {
         setMedia("/assets/placeholder.png");
       }}
@@ -53,7 +61,7 @@ function MediasBlock({ company, product }) {
 
   useEffect(() => {
     if (product && product.medias.length > 0) {
-      setMainMedia(product.medias[0].large);
+      setMainMedia(product.medias[0]);
     }
   }, [product]);
 
@@ -81,7 +89,6 @@ function MediasBlock({ company, product }) {
       {<MediaReader mainMedia={mainMedia} company={company} />}
       <div className="flex py-2 overflow-x-auto">
         {product.medias.map((media, i) => {
-          console.log({ media });
           return (
             <div
               className="inline-block min-w-max cursor-pointer"
@@ -92,13 +99,14 @@ function MediasBlock({ company, product }) {
                 width={64}
                 height={64}
                 style={{
-                  bgColor: mainMedia === media.large ? "#EEE" : "#55555511",
+                  bgColor:
+                    mainMedia.large === media.large ? "#EEE" : "#55555511",
                   borderColor:
-                    mainMedia === media.large ? "black" : "transparent",
+                    mainMedia.large === media.large ? "black" : "transparent",
                   objectFit: "contain",
                 }}
                 onClick={() => {
-                  setMainMedia(media.large);
+                  setMainMedia(media);
                 }}
                 src={media.thumb}
                 onError={({ currentTarget }) => {
