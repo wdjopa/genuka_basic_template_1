@@ -31,7 +31,11 @@ export default function Error404({ company }) {
       <link rel="icon" href={company.logo ? company.logo : ""} />
       <meta
         name="description"
-        content={company?.description?.replace(/<[^>]*>?/gm, "")}
+        content={
+          company?.description?.replace(/<[^>]*>?/gm, "").length > 0
+            ? company?.description?.replace(/<[^>]*>?/gm, "")
+            : "Achetez vos produits sur " + company.name
+        }
       />
       <meta
         name="keywords"

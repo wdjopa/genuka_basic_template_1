@@ -53,7 +53,11 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
           name="description"
-          content={company?.description?.replace(/<[^>]*>?/gm, "")}
+          content={
+            company?.description?.replace(/<[^>]*>?/gm, "").length > 0
+              ? company?.description?.replace(/<[^>]*>?/gm, "")
+              : "Achetez vos produits sur " + company.name
+          }
         />
         <meta
           name="keywords"
@@ -115,7 +119,11 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
           name="description"
-          content={collection?.description?.replace(/<[^>]*>?/gm, "")}
+          content={
+            company?.description?.replace(/<[^>]*>?/gm, "").length > 0
+              ? company?.description?.replace(/<[^>]*>?/gm, "")
+              : "Achetez vos produits sur " + company.name
+          }
         />
         <meta
           name="keywords"
@@ -184,7 +192,14 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
           name="description"
-          content={product?.description?.replace(/<[^>]*>?/gm, "")}
+          content={
+            product?.description?.replace(/<[^>]*>?/gm, "").length > 0
+              ? product?.description?.replace(/<[^>]*>?/gm, "")
+              : "Achetez votre produit " +
+                product.name +
+                " chez " +
+                company.name
+          }
         />
         <meta
           name="keywords"
@@ -237,7 +252,17 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <meta property="og:type" content="product" />
         <meta property="og:site_name" content={product.name} />
         <meta itemprop="name" content={product.name} />
-        <meta itemprop="description" content={product.description} />
+        <meta
+          itemprop="description"
+          content={
+            product?.description?.replace(/<[^>]*>?/gm, "").length > 0
+              ? product?.description?.replace(/<[^>]*>?/gm, "")
+              : "Achetez votre produit " +
+                product.name +
+                " chez " +
+                company.name
+          }
+        />
         <meta itemprop="price" content={product.discounted_price} />
         <meta
           itemprop="availability"
