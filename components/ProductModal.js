@@ -53,7 +53,7 @@ function MediasBlock({ company, product }) {
 
   useEffect(() => {
     if (product && product.medias.length > 0) {
-      setMainMedia(product.medias[0].link);
+      setMainMedia(product.medias[0].large);
     }
   }, [product]);
 
@@ -92,13 +92,13 @@ function MediasBlock({ company, product }) {
                 width={64}
                 height={64}
                 style={{
-                  bgColor: mainMedia === media.link ? "#EEE" : "#55555511",
+                  bgColor: mainMedia === media.large ? "#EEE" : "#55555511",
                   borderColor:
-                    mainMedia === media.link ? "black" : "transparent",
+                    mainMedia === media.large ? "black" : "transparent",
                   objectFit: "contain",
                 }}
                 onClick={() => {
-                  setMainMedia(media.link);
+                  setMainMedia(media.large);
                 }}
                 src={media.thumb}
                 onError={({ currentTarget }) => {
