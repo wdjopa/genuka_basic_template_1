@@ -29,7 +29,7 @@ function ProductCard({
       // onClick={() => seeDetails(product)}
     >
       <Link
-        className="rounded-md h-64 overflow-hidden relative"
+        className="rounded-md h-64 overflow-hidden relative block"
         // onClick={() => seeDetails(product)}
         href={url}
       >
@@ -73,6 +73,7 @@ function ProductCard({
                 currency: currency.code,
                 maximumFractionDigits: 0,
               }).format(product.discounted_price)}
+
               {product.price > product.discounted_price && (
                 <small className="pl-1 hidden sm:inline-block text-xs line-through text-white">
                   {new Intl.NumberFormat("fr-FR", {
