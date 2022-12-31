@@ -155,7 +155,7 @@ export async function getServerSideProps(context) {
       case "search":
         break;
     }
-    props.productFromServer = product;
+    if (product) props.productFromServer = product;
   }
   return {
     props,

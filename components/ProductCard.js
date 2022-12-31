@@ -26,13 +26,9 @@ function ProductCard({
   return (
     <div
       className="rounded-md h-64 overflow-hidden relative"
-      // onClick={() => seeDetails(product)}
+      onClick={() => seeDetails(product)}
     >
-      <Link
-        className="rounded-md h-64 overflow-hidden relative block"
-        // onClick={() => seeDetails(product)}
-        href={url}
-      >
+      <Link className="block" href={url}>
         {product.medias.length > 0 ? (
           <Image
             src={product.medias[0].thumb}
