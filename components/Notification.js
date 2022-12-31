@@ -20,7 +20,7 @@ const Notification = React.memo(
       isVisible && (
         <div
           id="toast-default"
-          class="mb-3 flex items-center  p-4 w-full max-w-xs text-white bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 "
+          class="mb-3 flex items-center  p-4 w-full max-w-xs text-white bg-white rounded-lg shadow z-50 "
           role="alert"
         >
           <div class="ml-3 text-sm text-white font-normal">
@@ -28,7 +28,7 @@ const Notification = React.memo(
           </div>
           <button
             type="button"
-            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 "
             data-dismiss-target="#toast-default"
             aria-label="Close"
             onClick={() => {
@@ -61,7 +61,7 @@ function Notifications() {
   const { notifications } = useGenukaState();
   const dispatch = useGenukaDispatch();
   return notifications && notifications.length > 0 ? (
-    <div className="bottom-0 left-0 flex justify-end items-center py-3 flex-col fixed bg-transparent w-screen h-screen">
+    <div className="bottom-0 left-0 flex justify-end items-center z-0 py-3 flex-col fixed bg-transparent w-screen h-screen">
       {notifications.map((notification) => {
         return (
           <Notification

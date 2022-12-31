@@ -7,6 +7,7 @@ import VariantsBlock from "./VariantsBlock";
 
 function MediaReader({ mainMedia, company }) {
   const [isAnImage, setIsAnImage] = useState(true);
+  const [media, setMedia] = useState(mainMedia);
   useEffect(() => {
     if (mainMedia) {
       setIsAnImage(true);
@@ -20,9 +21,9 @@ function MediaReader({ mainMedia, company }) {
         bgColor: "#55555511",
         borderColor: "transparent",
       }}
-      src={mainMedia}
+      src={media}
       onError={({ currentTarget }) => {
-        setIsAnImage(false);
+        setMedia("/assets/placeholder.png");
       }}
       alt={"Picture of " + company.name}
     />
@@ -31,8 +32,10 @@ function MediaReader({ mainMedia, company }) {
       style={{ height: "400px", background: "black", borderRadius: "5px" }}
       controls
       autoPlay
-      src={mainMedia}
-      onError={(e) => {}}
+      src={media}
+      onError={(e) => {
+        setMedia("/assets/placeholder.png");
+      }}
     />
   );
 }
