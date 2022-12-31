@@ -63,7 +63,16 @@ function CollectionsTags({ company }) {
       );
     }
   };
-  console.log({ selectedCollectionId });
+
+  // useEffect(() => {
+  //   if (selectedCollectionId)
+  //     getCollectionProducts(dispatch, company.id, selectedCollectionId, {
+  //       ...collection_product_list_pagination,
+  //       ...pagination,
+  //       page: pagination.current_page,
+  //     });
+  // }, [selectedCollectionId]);
+
   if (!company || !collections) {
     return <></>;
   }

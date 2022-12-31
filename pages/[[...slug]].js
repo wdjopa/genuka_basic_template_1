@@ -78,7 +78,7 @@ export default function Home({
         page: pagination.current_page,
       });
     }
-  }, [slug, company]);
+  }, [company]);
 
   return (
     <Layout head={meta} company={company}>
