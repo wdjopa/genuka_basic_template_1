@@ -415,21 +415,6 @@ function CartComponent({ company }) {
               <div className=" px-2">
                 <button
                   className={
-                    "btn border-primary border-2 my-2 rounded-md w-full px-4 py-2"
-                  }
-                  width="full"
-                  onClick={() => {
-                    if (
-                      confirm("Vous êtes sûre de vouloir vider votre panier")
-                    ) {
-                      dispatch({ type: "clear_cart" });
-                    }
-                  }}
-                >
-                  Vider mon panier
-                </button>
-                <button
-                  className={
                     (!allowToBuy || (loading && loading.order)
                       ? "disabled bg-gray-200 text-gray-400 "
                       : "bg-primary border-primary text-white ") +
@@ -447,6 +432,21 @@ function CartComponent({ company }) {
                     maximumFractionDigits: 0,
                   }).format(total + company.shipping_fee)}
                   )
+                </button>
+                <button
+                  className={
+                    "btn border-primary border-2 my-2 rounded-md w-full px-4 py-2"
+                  }
+                  width="full"
+                  onClick={() => {
+                    if (
+                      confirm("Vous êtes sûre de vouloir vider votre panier")
+                    ) {
+                      dispatch({ type: "clear_cart" });
+                    }
+                  }}
+                >
+                  Vider mon panier
                 </button>
               </div>
             </div>
