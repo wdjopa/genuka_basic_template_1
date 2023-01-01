@@ -37,7 +37,7 @@ function MediaReader({ mainMedia, company }) {
         }}
         loading="eager"
         fill={true}
-        src={media.link}
+        src={media.large}
         onError={({ currentTarget }) => {
           setMedia("/assets/placeholder.png");
         }}
