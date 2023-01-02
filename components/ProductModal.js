@@ -187,7 +187,8 @@ const ProductModal = ({
       .every(
         (v) =>
           requiredVariantsSlug.includes(v.slug) &&
-          v.options.length <= v.max_choices
+          v.options.length <= v.max_choices &&
+          v.options.length >= 1
       );
 
   return (
