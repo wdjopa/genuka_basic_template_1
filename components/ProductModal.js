@@ -6,15 +6,20 @@ import { useGenukaDispatch, useGenukaState } from "../utils/genuka.store";
 import ToggleTitle from "./ToggleTitle";
 import VariantsBlock from "./VariantsBlock";
 
-function MediaReader({ mainMedia, company }) {
-  const [isAnImage, setIsAnImage] = useState(true);
+function MediaReader({ mainMedia, product }) {
+  const [isAnImage, setIsAnImage] = useState(
+    !mainMedia.mime_type.includes("video")
+  );
   const [media, setMedia] = useState(mainMedia);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (mainMedia) {
-      setMedia(mainMedia);
+      setMedia(
+        mainMedia.mime_type.includes("video") ? mainMedia.link : mainMedia.large
+      );
+
       setIsLoading(true);
-      setIsAnImage(mainMedia.mime_type.includes("image"));
+      setIsAnImage(!mainMedia.mime_type.includes("video"));
     }
   }, [mainMedia.id]);
 
@@ -37,11 +42,20 @@ function MediaReader({ mainMedia, company }) {
         }}
         loading="eager"
         fill={true}
-        src={media.large}
+        src={media}
         onError={({ currentTarget }) => {
-          setMedia("/assets/placeholder.png");
+          currentTarget.onerror = null; // prevents looping
+          if (!currentTarget.tried) {
+            currentTarget.tried = 0;
+          }
+          currentTarget.tried++;
+          if (currentTarget.tried === 1) {
+            setMedia(mainMedia.link);
+          } else {
+            setMedia("/assets/placeholder.png");
+          }
         }}
-        alt={"Picture of " + company.name}
+        alt={"Picture of " + product.name}
       />
     </div>
   ) : (
@@ -49,8 +63,9 @@ function MediaReader({ mainMedia, company }) {
       style={{ height: "400px", background: "black", borderRadius: "5px" }}
       controls
       autoPlay
-      src={media.link}
-      onError={(e) => {
+      src={media}
+      onError={({ currentTarget }) => {
+        currentTarget.onerror = null; // prevents looping
         setMedia("/assets/placeholder.png");
       }}
     />
@@ -86,7 +101,7 @@ function MediasBlock({ company, product }) {
     );
   return (
     <div className="flex flex-col px-2">
-      {<MediaReader mainMedia={mainMedia} company={company} />}
+      {<MediaReader mainMedia={mainMedia} product={product} />}
       <div className="flex py-2 overflow-x-auto">
         {product.medias.map((media, i) => {
           return (
