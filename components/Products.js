@@ -18,8 +18,7 @@ function Products({ company, css }) {
     search_mode,
     searched_products,
     products,
-    collection,
-    collection_product_list_pagination,
+
     product,
     cart,
   } = useGenukaState();
@@ -49,31 +48,6 @@ function Products({ company, css }) {
       setModalOpen(true);
     }
   }, [product]);
-
-  const changePagination = (pagination) => {
-    const {
-      first,
-      last,
-      prev,
-      path,
-      from,
-      last_page,
-      total,
-      next,
-      to,
-      page,
-      ...query
-    } = pagination;
-    router.push({ query: { ...router.query, ...query } }, undefined, {
-      shallow: true,
-    });
-
-    if (collection) {
-      getCollectionProducts(dispatch, company.id, collection.id, pagination);
-    } else {
-      getProducts(dispatch, company.id, pagination);
-    }
-  };
 
   const addProductToCart = (productInCart) => {
     dispatch({ type: "add_product", payload: productInCart });
@@ -154,11 +128,6 @@ function Products({ company, css }) {
           }}
         />
       )}
-      <div className="my-6" />
-      <Pagination
-        pagination={collection_product_list_pagination}
-        onChange={changePagination}
-      />
     </>
   );
 }
