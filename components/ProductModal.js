@@ -20,7 +20,6 @@ function MediaReader({ mainMedia, product }) {
       setMedia(
         mainMedia.mime_type.includes("video") ? mainMedia.link : mainMedia.large
       );
-
       setIsLoading(true);
       setIsAnImage(!mainMedia.mime_type.includes("video"));
     }
@@ -34,7 +33,6 @@ function MediaReader({ mainMedia, product }) {
     >
       <Image
         className={"inline-block "}
-        unloadedContent={<img src="/assets/placeholder.png" alt="Loading" />}
         style={{
           bgColor: "#55555511",
           borderColor: "transparent",
@@ -48,15 +46,16 @@ function MediaReader({ mainMedia, product }) {
         src={media}
         onError={({ currentTarget }) => {
           currentTarget.onerror = null; // prevents looping
-          if (!currentTarget.tried) {
-            currentTarget.tried = 0;
-          }
-          currentTarget.tried++;
-          if (currentTarget.tried === 1) {
-            setMedia(mainMedia.link);
-          } else {
-            setMedia("/assets/placeholder.png");
-          }
+          setMedia(mainMedia.link);
+          // if (!currentTarget.tried) {
+          //   currentTarget.tried = 0;
+          // }
+          // currentTarget.tried++;
+          // if (currentTarget.tried === 1) {
+          //   setMedia(mainMedia.link);
+          // } else {
+          //   setMedia("/assets/placeholder.png");
+          // }
         }}
         alt={"Picture of " + product.name}
       />
