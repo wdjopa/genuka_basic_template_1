@@ -7,7 +7,7 @@ import { diffForHumans } from "../utils/helpers";
 function Article({ company, article }) {
   const image = article.medias?.[0];
   const title = article.title;
-  const [url, setUrl] = useState(window ? window.location.href : "");
+  const [url, setUrl] = useState("");
   useEffect(() => {
     if (document || window) {
       setUrl(window.location.href);
