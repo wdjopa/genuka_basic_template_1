@@ -1,11 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function Header({ company }) {
   if (!company) return <></>;
   return (
     <>
-      <div className="flex justify-center content-center py-4">
+      <Link href="/" className="flex justify-center content-center py-4">
         {company.logo && (
           <Image
             className="rounded"
@@ -18,7 +19,8 @@ function Header({ company }) {
         <h1 className="ml-2 flex items-center">
           <span className="text-2xl font-semibold">{company.name}</span>
         </h1>
-      </div>
+      </Link>
+
       <div className="text-center">
         <h2>{company.description}</h2>
       </div>

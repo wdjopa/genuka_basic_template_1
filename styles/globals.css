@@ -132,3 +132,27 @@ footer .genuka_bar {
     stroke-dashoffset: 0;
   }
 }
+
+.floating_button {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  color: white;
+  font-size: 25px;
+  display: flex;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px;
+  transition: box-shadow .25s ease-in;
+  background-color: var(--primary-color);
+}
+
+.font-default * {
+  font-family: "Soleil" !important;
+  color: rgba(0, 0, 0, 0.82);
+}

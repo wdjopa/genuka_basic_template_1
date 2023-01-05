@@ -1,6 +1,9 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
+// import Whatsapp from "../components/icons/Whatsapp";
+import Whatsapp from "../public/assets/whatsapp.svg";
+
 import Pagination from "../components/Pagination";
 import {
   getCollectionProducts,
@@ -9,6 +12,8 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
+import Image from "next/image";
+import Link from "next/link";
 
 const CartComponent = dynamic(() => import("../components/CartComponent"));
 const CollectionsTags = dynamic(() => import("../components/CollectionsTags"));
@@ -55,10 +60,47 @@ function Shop({ company, css }) {
       getProducts(dispatch, company.id, pagination);
     }
   };
+  const phoneNumber = company.phone
+    .replaceAll(" ", "")
+    .replaceAll("(", "")
+    .replaceAll(")", "")
+    .replaceAll("-", "")
+    .replaceAll(" ", "");
+  let hasWhatsapp = company.settings.default_template.whatsapp
+    ? company.settings.default_template.whatsapp.active
+    : phoneNumber != ""
+    ? true
+    : false;
+  const message = company.settings.default_template.whatsapp?.message ?? "";
+
   return (
     <>
       <CartComponent company={company} />
-      <SearchBar company={company} searchProduct={searchProduct} />
+      {hasWhatsapp && (
+        <a
+          target={"_blank"}
+          rel="noreferrer"
+          href={"https://wa.me/" + phoneNumber + "?text=" + message}
+          className="floating_button"
+        >
+          <Image
+            src="/assets/whatsapp.svg"
+            alt="Whatsapp icon"
+            height={25}
+            width={25}
+          />
+        </a>
+      )}
+      <Link
+        className="rounded-2 bg-white p-2 px-4 text-sm my-3 text-primary inline-block"
+        href={"/articles"}
+      >
+        📚 Consultez notre Blog 📚
+      </Link>
+      <SearchBar
+        placeholder={"Recherchez un produit"}
+        onSearch={searchProduct}
+      />
       {!search_mode && <CollectionsTags company={company} />}
       <Products css={css} company={company} />
       <div className="my-6" />

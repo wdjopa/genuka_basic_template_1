@@ -121,32 +121,39 @@ function CartComponent({ company }) {
   //     .every(
   //       (v) => requiredVariantsSlug.includes(v.slug) && v.options.length > 0
   //     );
+  const mainColor = company.settings?.default_template?.main_color ?? "#FF9900";
   return (
     <div>
       {isVisible && (
         <div
           onClick={() => setIsOpen(true)}
-          className="cursor-pointer floating-btn rounded-full fixed right-4 z-20 top-1/2 w-14 h-14 shadow-lg flex justify-center items-center bg-primary"
+          className="cursor-pointer border-primary border-2 floating-btn rounded-full fixed right-4 z-20 top-1/2 w-14 h-14 shadow-lg flex justify-center items-center bg-white"
         >
-          <svg
-            id="Layer_1"
-            enableBackground="new 0 0 24 24"
-            height="28"
-            viewBox="0 0 24 24"
-            width="28"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g>
+          <div className="relative flex justify-center items-center w-full h-full">
+            <span className="counter absolute -top-2 text-xs flex justify-center items-center bg-primary w-5 h-5 rounded-full text-white text-center right-0">
+              {cart.items.length}
+              {/* {cart.items.reduce((prev, curr) => prev + curr.quantity, 0)} */}
+            </span>
+            <svg
+              id="Layer_1"
+              enableBackground="new 0 0 24 24"
+              height="28"
+              viewBox="0 0 24 24"
+              width="28"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g>
-                <path
-                  d="m21.4 7c-.35-.61-1-.99-1.7-1h-12.8l-.58-2.26c-.12-.45-.54-.76-1-.74h-2c-.55 0-1 .45-1 1s.45 1 1 1h1.24l2.76 10.26c.12.45.54.76 1 .74h9c.38 0 .72-.21.89-.55l3.28-6.56c.29-.6.25-1.31-.09-1.89z"
-                  fill="white"
-                />
-                <circle cx="7.82" cy="19.5" r="1.5" fill="white" />
-                <circle cx="17.82" cy="19.5" r="1.5" fill="white" />
+                <g>
+                  <path
+                    d="m21.4 7c-.35-.61-1-.99-1.7-1h-12.8l-.58-2.26c-.12-.45-.54-.76-1-.74h-2c-.55 0-1 .45-1 1s.45 1 1 1h1.24l2.76 10.26c.12.45.54.76 1 .74h9c.38 0 .72-.21.89-.55l3.28-6.56c.29-.6.25-1.31-.09-1.89z"
+                    fill={mainColor}
+                  />
+                  <circle cx="7.82" cy="19.5" r="1.5" fill={mainColor} />
+                  <circle cx="17.82" cy="19.5" r="1.5" fill={mainColor} />
+                </g>
               </g>
-            </g>
-          </svg>
+            </svg>
+          </div>
         </div>
       )}
       {isVisible && isOpen && (

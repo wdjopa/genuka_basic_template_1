@@ -7,6 +7,7 @@ import { addAVariantOption } from "./helpers";
 const GenukaStateContext = React.createContext();
 const GenukaDispatchContext = React.createContext();
 const DEFAULT_ITEMS_PER_PAGE = 18;
+const DEFAULT_ARTICLES_PER_PAGE = 4;
 
 async function getCompanyById(dispatch, company_id) {
   dispatch({ type: "loading", payload: { global: true } });
@@ -232,6 +233,54 @@ async function getProductById(dispatch, company_id, product_slug) {
     dispatch({
       type: "error",
       payload: "An error occur when getting product",
+    });
+  }
+  dispatch({ type: "loading", payload: { global: false } });
+}
+
+async function getArticles(dispatch, company_id, articles_list_pagination) {
+  dispatch({ type: "loading", payload: { global: true } });
+
+  try {
+    const response = await axios.get(
+      `${genuka_api_2021_10}/companies/${company_id}/blogs?per_page=${articles_list_pagination.per_page}&page=${articles_list_pagination.page}&sort_by=${articles_list_pagination.sort_by}&sort_dir=${articles_list_pagination.sort_dir}`
+    );
+    if (response.data) {
+      dispatch({ type: "articles_success", payload: response.data });
+    } else {
+      dispatch({
+        type: "error",
+        payload: "An error occur when getting articles",
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: "error",
+      payload: "An error occur when getting articles",
+    });
+  }
+  dispatch({ type: "loading", payload: { global: false } });
+}
+
+async function searchArticles(dispatch, company_id, searchTerm) {
+  dispatch({ type: "loading", payload: { global: true } });
+
+  try {
+    const response = await axios.post(
+      `${genuka_api_2021_10}/companies/${company_id}/blogs/search?q=${searchTerm}&per_page=${DEFAULT_ITEMS_PER_PAGE}&page=1`
+    );
+    if (response.data) {
+      dispatch({ type: "products_success_search", payload: response.data });
+    } else {
+      dispatch({
+        type: "error",
+        payload: "An error occur when getting products",
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: "error",
+      payload: "An error occur when getting products",
     });
   }
   dispatch({ type: "loading", payload: { global: false } });
@@ -818,6 +867,17 @@ function commentReducer(state, action) {
       products[action.payload.id] = action.payload;
       return { ...state, products };
     }
+    case "articles_success": {
+      return {
+        ...state,
+        articles: action.payload.data,
+        articles_list_pagination: {
+          ...action.payload.meta,
+          ...action.payload.links,
+          page: state.articles_list_pagination.page,
+        },
+      };
+    }
     case "products_success": {
       return {
         ...state,
@@ -1135,6 +1195,13 @@ function GenukaProvider({ children }) {
       sort_by: "created_at",
       sort_dir: "desc",
     },
+    articles_list_pagination: {
+      current_page: 1,
+      page: 1,
+      per_page: DEFAULT_ARTICLES_PER_PAGE,
+      sort_by: "created_at",
+      sort_dir: "desc",
+    },
     orders: [],
     current_order: undefined,
     order_loaded: undefined,
@@ -1176,6 +1243,7 @@ export {
   getCompany,
   getCompanyById,
   getCollection,
+  getArticles,
   getProducts,
   getProduct,
   getProductById,

@@ -286,3 +286,45 @@ export const getMetaData = ({ css, company, product, collection }) => {
     );
   }
 };
+
+export function removeHTML(str) {
+  return str.replace(/<[^>]*>/g, "");
+}
+
+export function diffForHumans(dateStr, language = "en") {
+  const date = new Date(dateStr);
+  const currentDate = new Date();
+  const diffInSeconds = (currentDate - date) / 1000;
+
+  if (language === "en") {
+    if (diffInSeconds < 60) {
+      return `${Math.round(diffInSeconds)} seconds ago`;
+    } else if (diffInSeconds < 3600) {
+      return `${Math.round(diffInSeconds / 60)} minutes ago`;
+    } else if (diffInSeconds < 86400) {
+      return `${Math.round(diffInSeconds / 3600)} hours ago`;
+    } else if (diffInSeconds < 2592000) {
+      return `${Math.round(diffInSeconds / 86400)} days ago`;
+    } else if (diffInSeconds < 31536000) {
+      return `${Math.round(diffInSeconds / 2592000)} months ago`;
+    } else {
+      return `${Math.round(diffInSeconds / 31536000)} years ago`;
+    }
+  } else if (language === "fr") {
+    if (diffInSeconds < 60) {
+      return `il y a ${Math.round(diffInSeconds)} secondes`;
+    } else if (diffInSeconds < 3600) {
+      return `il y a ${Math.round(diffInSeconds / 60)} minutes`;
+    } else if (diffInSeconds < 86400) {
+      return `il y a ${Math.round(diffInSeconds / 3600)} heures`;
+    } else if (diffInSeconds < 2592000) {
+      return `il y a ${Math.round(diffInSeconds / 86400)} jours`;
+    } else if (diffInSeconds < 31536000) {
+      return `il y a ${Math.round(diffInSeconds / 2592000)} mois`;
+    } else {
+      return `il y a ${Math.round(diffInSeconds / 31536000)} ans`;
+    }
+  } else {
+    throw new Error(`Invalid language: ${language}`);
+  }
+}
