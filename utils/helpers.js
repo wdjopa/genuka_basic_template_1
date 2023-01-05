@@ -47,7 +47,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
     return (
       <>
         <style>{css}</style>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <title>{company.name + " - " + company.description}</title>
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
@@ -107,7 +107,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
     return (
       <>
         <style>{css}</style>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <title>
           {company.name +
             " | " +
@@ -187,7 +187,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
             " - " +
             product?.description?.replace(/<[^>]*>?/gm, "")}
         </title>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta
@@ -251,9 +251,9 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
 
         <meta property="og:type" content="product" />
         <meta property="og:site_name" content={product.name} />
-        <meta itemprop="name" content={product.name} />
+        <meta itemProp="name" content={product.name} />
         <meta
-          itemprop="description"
+          itemProp="description"
           content={
             product?.description?.replace(/<[^>]*>?/gm, "").length > 0
               ? product?.description?.replace(/<[^>]*>?/gm, "")
@@ -263,15 +263,15 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
                 company.name
           }
         />
-        <meta itemprop="price" content={product.discounted_price} />
+        <meta itemProp="price" content={product.discounted_price} />
         <meta
-          itemprop="availability"
+          itemProp="availability"
           content={product.infinite_stocks ? "En stock" : product.stocks}
         />
-        <meta itemprop="price" content={product.discounted_price} />
-        <meta itemprop="priceCurrency" content={company.currency.code} />
+        <meta itemProp="price" content={product.discounted_price} />
+        <meta itemProp="priceCurrency" content={company.currency.code} />
         <meta
-          itemprop="image"
+          itemProp="image"
           content={
             product.medias?.[0]
               ? product.medias[0].thumb
@@ -307,7 +307,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
             " - " +
             removeHTML(article?.properties?.resume)}
         </title>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
         <meta name="description" content={description} />
@@ -336,16 +336,16 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
 
         <meta property="og:type" content="article" />
         <meta property="og:site_name" content={article.title} />
-        <meta itemprop="name" content={article.title} />
-        <meta itemprop="description" content={description} />
-        <meta itemprop="image" content={image} />
+        <meta itemProp="name" content={article.title} />
+        <meta itemProp="description" content={description} />
+        <meta itemProp="image" content={image} />
       </>
     );
   } else {
     return (
       <>
         <style>{css}</style>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <title>{company.name + " - " + company.description}</title>
         <link rel="favicon" href={company.logo ? company.logo : ""} />
         <link rel="icon" href={company.logo ? company.logo : ""} />
