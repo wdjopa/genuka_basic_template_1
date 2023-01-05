@@ -42,8 +42,8 @@ export const validateEmail = (email) => {
     );
 };
 
-export const getMetaData = ({ css, company, product, collection }) => {
-  if (!product && !collection) {
+export const getMetaData = ({ css, company, product, article, collection }) => {
+  if (company && !(product || collection || article)) {
     return (
       <>
         <style>{css}</style>
@@ -176,7 +176,7 @@ export const getMetaData = ({ css, company, product, collection }) => {
         <meta property="og:site_name" content={collection.name} />
       </>
     );
-  } else {
+  } else if (product) {
     return (
       <>
         <style>{css}</style>
@@ -282,6 +282,123 @@ export const getMetaData = ({ css, company, product, collection }) => {
               : ""
           }
         />
+      </>
+    );
+  } else if (article) {
+    const description =
+      removeHTML(article?.properties?.resume).length > 0
+        ? removeHTML(article?.properties?.resume)
+        : article.title + " | " + company.name;
+    const text = article?.text;
+    const image = article.medias?.[0]
+      ? article.medias[0].thumb
+      : company.logo
+      ? company.logo
+      : company.medias && company.medias.length > 0
+      ? company.medias[0].link
+      : "";
+    return (
+      <>
+        <style>{css}</style>
+        <title>
+          {company.name +
+            " | " +
+            article.title +
+            " - " +
+            removeHTML(article?.properties?.resume)}
+        </title>
+        <meta charset="utf-8" />
+        <link rel="favicon" href={company.logo ? company.logo : ""} />
+        <link rel="icon" href={company.logo ? company.logo : ""} />
+        <meta name="description" content={description} />
+        <meta
+          name="keywords"
+          content={text
+            ?.replace(/<[^>]*>?/gm, "")
+            .split(" ")
+            .join(", ")}
+        />
+        <meta name="author" content={"Genuka for " + company.name} />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta
+          name="apple-mobile-web-app-title"
+          content={company.name + " | " + article.title}
+        />
+        <meta name="msapplication-TileColor" content="#222" />
+        <meta name="msapplication-TileImage" content={image} />
+        <meta name="theme-color" content="#222" />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content={article.title} />
+        <meta itemprop="name" content={article.title} />
+        <meta itemprop="description" content={description} />
+        <meta itemprop="image" content={iamge} />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <style>{css}</style>
+        <meta charset="utf-8" />
+        <title>{company.name + " - " + company.description}</title>
+        <link rel="favicon" href={company.logo ? company.logo : ""} />
+        <link rel="icon" href={company.logo ? company.logo : ""} />
+        <meta
+          name="description"
+          content={
+            company?.description?.replace(/<[^>]*>?/gm, "").length > 0
+              ? company?.description?.replace(/<[^>]*>?/gm, "")
+              : "Achetez vos produits sur " + company.name
+          }
+        />
+        <meta
+          name="keywords"
+          content={company?.description
+            ?.replace(/<[^>]*>?/gm, "")
+            .split(" ")
+            .join(", ")}
+        />
+        <meta name="author" content={"Genuka for " + company.name} />
+        <meta name="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content={company.name} />
+        <meta name="msapplication-TileColor" content="#222" />
+        <meta
+          name="msapplication-TileImage"
+          content={
+            company.logo
+              ? company.logo
+              : company.medias && company.medias.length > 0
+              ? company.medias[0].link
+              : ""
+          }
+        />
+        <meta name="theme-color" content="#222" />
+        <meta property="og:title" content={company.name} />
+        <meta
+          property="og:description"
+          content={company?.description?.replace(/<[^>]*>?/gm, "")}
+        />
+        <meta
+          property="og:image"
+          content={
+            company.logo
+              ? company.logo
+              : company.medias && company.medias.length > 0
+              ? company.medias[0].thumb
+              : ""
+          }
+        />
+        <meta property="og:type" content="company" />
+        <meta property="og:site_name" content={company.name} />
       </>
     );
   }
