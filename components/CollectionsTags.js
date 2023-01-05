@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
@@ -36,7 +37,6 @@ function CollectionsTags({ company }) {
   }, [collection]);
 
   useEffect(() => {
-    console.log("getPaginatedCollections");
     if (!collections_list) {
       getPaginatedCollections(dispatch, company.id, collection_list_pagination);
     }

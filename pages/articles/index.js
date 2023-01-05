@@ -61,7 +61,7 @@ function ArticlesList({ company }) {
 
     getArticles(dispatch, company.id, pagination);
   };
-  console.log({ company });
+  //   console.log({ company });
   return (
     <Layout head={meta} company={company}>
       {/* <SearchBar
@@ -92,7 +92,7 @@ export async function getServerSideProps(context) {
   let company, result, article;
   const { req } = context;
   const url = req.headers.host;
-  console.log({ url });
+  //   console.log({ url });
   try {
     result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
     company = await result.json();

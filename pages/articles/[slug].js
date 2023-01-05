@@ -42,7 +42,7 @@ export async function getServerSideProps(context) {
   const { req } = context;
   const slug = context.params.slug;
   const url = req.headers.host;
-  console.log({ url });
+  // console.log({ url });
   try {
     result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
     company = await result.json();

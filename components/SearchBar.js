@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import useDebounce from "../utils/hooks/useDebounce";
 
@@ -9,7 +10,7 @@ function SearchBar({ onSearch, placeholder }) {
   const debouncedSearchTerm = useDebounce(searchTerm, 1500);
 
   useEffect(() => {
-    console.log(`Recherche en cours pour ${debouncedSearchTerm}...`);
+    // console.log(`Recherche en cours pour ${debouncedSearchTerm}...`);
     onSearch(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
   return (

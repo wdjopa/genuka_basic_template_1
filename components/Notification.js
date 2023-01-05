@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/display-name */
 import React from "react";
 import { useGenukaDispatch, useGenukaState } from "../utils/genuka.store";

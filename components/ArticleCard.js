@@ -5,7 +5,7 @@ import React from "react";
 import { removeHTML } from "../utils/helpers";
 
 function ArticleCard({ article }) {
-  console.log({ article });
+  //   console.log({ article });
   return (
     <Link href={"/articles/" + article.slug} className="mx-auto w-auto">
       <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm mb-5">

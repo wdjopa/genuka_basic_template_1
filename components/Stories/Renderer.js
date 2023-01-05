@@ -42,7 +42,7 @@ export const rendererVideo = ({
 
   const videoLoaded = () => {
     const duration = Math.ceil(vid.current.duration) + 5;
-    console.log({ video: JSON.stringify(duration), vid: vid.current });
+    // console.log({ video: JSON.stringify(duration), vid: vid.current });
     messageHandler("UPDATE_VIDEO_DURATION", {
       duration,
     });

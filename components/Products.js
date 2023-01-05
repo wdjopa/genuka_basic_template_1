@@ -7,9 +7,7 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
-import Head from "next/head";
 
-const Pagination = dynamic(() => import("./Pagination"));
 const ProductCard = dynamic(() => import("./ProductCard"));
 const ProductModal = dynamic(() => import("./ProductModal"));
 

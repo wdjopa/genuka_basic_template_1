@@ -119,7 +119,7 @@ async function getCollectionProducts(
     const response = await axios.get(
       `${genuka_api_2021_10}/companies/${company_id}/collections/${collection_id}?per_page=${collection_product_list_pagination.per_page}&page=${collection_product_list_pagination.page}&sort_by=${collection_product_list_pagination.sort_by}&sort_dir=${collection_product_list_pagination.sort_dir}`
     );
-    console.log(response);
+    // console.log(response);
     if (response.data) {
       dispatch({ type: "collection_products_success", payload: response.data });
     } else {
@@ -750,7 +750,7 @@ async function deleteAReview(dispatch, product, review) {
 }
 
 function evaluateNewPrice(pC) {
-  console.log({ pC });
+  // console.log({ pC });
   if (!pC.product) return 0;
   // evaluate new price
   let price = pC.product.discounted_price;
@@ -777,7 +777,6 @@ function evaluateNewPrice(pC) {
 }
 
 function commentReducer(state, action) {
-  console.log("Entrée 1, ProductInCart");
   switch (action.type) {
     case "hydrate_product": {
       let pC = { ...state.productInCart, product: action.payload.product };
@@ -903,7 +902,6 @@ function commentReducer(state, action) {
       };
     }
     case "collection_products_success": {
-      console.log("collection_products_success", action.payload);
       return {
         ...state,
         collection: action.payload.collection,

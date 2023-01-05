@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
 import Image from "next/image";
@@ -21,7 +22,7 @@ function MediaReader({ mainMedia, product }) {
       setIsLoading(true);
       setIsAnImage(!mainMedia.mime_type.includes("video"));
     }
-  }, [mainMedia.id]);
+  }, [mainMedia, mainMedia.id]);
 
   return isAnImage ? (
     <div

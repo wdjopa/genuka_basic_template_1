@@ -10,7 +10,7 @@ function CollectionTag({ collection, onSelect, isSelected }) {
     if (isSelected) {
       executeScroll();
     }
-  }, []);
+  }, [isSelected]);
   if (collection.id === 0)
     return (
       <div
