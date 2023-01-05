@@ -405,7 +405,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
 };
 
 export function removeHTML(str) {
-  return str.replace(/<[^>]*>/g, "");
+  return str?.replace(/<[^>]*>/g, "") ?? "";
 }
 
 export function diffForHumans(dateStr, language = "en") {
