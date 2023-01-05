@@ -38,10 +38,6 @@ function MediaReader({ mainMedia, product }) {
           borderColor: "transparent",
           objectFit: "contain",
         }}
-        onLoad={() => {
-          setIsLoading(false);
-        }}
-        loading="eager"
         fill={true}
         src={media}
         onError={({ currentTarget }) => {
@@ -57,7 +53,7 @@ function MediaReader({ mainMedia, product }) {
           //   setMedia("/assets/placeholder.png");
           // }
         }}
-        alt={"Picture of " + product.name}
+        alt={"Picture of " + product.name + " " + media}
       />
     </div>
   ) : (
