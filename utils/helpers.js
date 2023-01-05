@@ -338,7 +338,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta property="og:site_name" content={article.title} />
         <meta itemprop="name" content={article.title} />
         <meta itemprop="description" content={description} />
-        <meta itemprop="image" content={iamge} />
+        <meta itemprop="image" content={image} />
       </>
     );
   } else {

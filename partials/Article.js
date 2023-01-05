@@ -4,13 +4,16 @@ import AuthorBlock from "../components/AuthorBlock";
 import { diffForHumans } from "../utils/helpers";
 
 function Article({ company, article }) {
+  const image = article.medias?.[0];
   return (
     <div className=" text-gray-800 font-default">
-      <img
-        src={article.medias?.[0]?.link}
-        className="rounded-lg w-full h-72 object-cover my-5"
-        alt={"Image of " + article.title}
-      />
+      {image && (
+        <img
+          src={image.link}
+          className="rounded-lg w-full h-72 object-cover my-5"
+          alt={"Image of " + article.title}
+        />
+      )}
       <div className="my-5">
         <h2 className="text-3xl  font-bold">{article.title}</h2>
         <p className="text-md">
