@@ -11,7 +11,9 @@ function MediaReader({ mainMedia, product }) {
   const [isAnImage, setIsAnImage] = useState(
     !mainMedia.mime_type.includes("video")
   );
-  const [media, setMedia] = useState(mainMedia);
+  const [media, setMedia] = useState(
+    mainMedia.mime_type.includes("video") ? mainMedia.link : mainMedia.large
+  );
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     if (mainMedia) {

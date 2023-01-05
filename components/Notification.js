@@ -61,7 +61,7 @@ function Notifications() {
   const { notifications } = useGenukaState();
   const dispatch = useGenukaDispatch();
   return notifications && notifications.length > 0 ? (
-    <div className="bottom-0 bg-primary left-0 flex bg-transparent justify-end items-center  py-3 flex-col fixed w-screen">
+    <div className="bottom-0 left-0 flex bg-transparent justify-end items-center  py-3 flex-col fixed w-screen">
       {notifications.map((notification) => {
         return (
           <Notification
