@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
 import React from "react";
 import AuthorBlock from "../components/AuthorBlock";
 import { diffForHumans } from "../utils/helpers";
@@ -6,7 +7,10 @@ import { diffForHumans } from "../utils/helpers";
 function Article({ company, article }) {
   const image = article.medias?.[0];
   return (
-    <div className=" text-gray-800 font-default">
+    <div className=" text-gray-800 font-default my-3">
+      <div className="mx-auto text-center w-full">
+        <Link href="/articles">Voir tous les articles</Link>
+      </div>
       {image && (
         <img
           src={image.link}
@@ -28,7 +32,9 @@ function Article({ company, article }) {
           __html: article.text,
         }}
       ></div>
-
+      <div className="mx-auto text-center w-full">
+        <Link href="/articles">Voir tous les articles</Link>
+      </div>
       {/* <AuthorBlock article={article} company={company} /> */}
     </div>
   );

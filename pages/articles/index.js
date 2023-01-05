@@ -69,10 +69,10 @@ function ArticlesList({ company }) {
         onSearch={searchArticle}
       /> */}
       <Link
-        className="rounded-2 bg-white p-2 px-4 text-sm my-3 text-primary inline-block"
+        className="rounded-2 bg-white p-2 px-4 text-sm my-3 text-primary inline-block sm:w-auto w-full sm:text-left text-center"
         href={"/"}
       >
-        🛒 Consulter nos produits 🛍
+        🛒 Consultez nos produits 🛍
       </Link>
       <Articles company={company} />
       <div className="my-6" />

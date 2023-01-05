@@ -286,12 +286,12 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
     );
   } else if (article) {
     const description =
-      removeHTML(article?.properties?.resume).length > 0
-        ? removeHTML(article?.properties?.resume)
+      removeHTML(article.properties?.resume).length > 0
+        ? removeHTML(article.properties?.resume)
         : article.title + " | " + company.name;
-    const text = article?.text;
+    const text = article.text;
     const image = article.medias?.[0]
-      ? article.medias[0].thumb
+      ? article.medias[0].link
       : company.logo
       ? company.logo
       : company.medias && company.medias.length > 0

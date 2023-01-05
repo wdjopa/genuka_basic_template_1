@@ -27,12 +27,14 @@ function Articles({ company }) {
     return <></>;
   }
   return (
-    <div className="grid sm:grid-cols-2 ">
+    <>
       {_articles.length === 0 && <>Aucun article disponible</>}
-      {_articles.map((article) => (
-        <ArticleCard key={"article_card" + article.id} article={article} />
-      ))}
-    </div>
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 ">
+        {_articles.map((article) => (
+          <ArticleCard key={"article_card" + article.id} article={article} />
+        ))}
+      </div>
+    </>
   );
 }
 
