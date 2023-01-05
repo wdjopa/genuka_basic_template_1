@@ -110,7 +110,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta charSet="utf-8" />
         <title>
           {company.name +
-            " | " +
+            " — " +
             collection.name +
             " - " +
             collection.description}
@@ -154,7 +154,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta name="theme-color" content="#222" />
         <meta
           property="og:title"
-          content={company.name + " | " + collection.name}
+          content={company.name + " — " + collection.name}
         />
         <meta
           property="og:description"
@@ -182,7 +182,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <style>{css}</style>
         <title>
           {company.name +
-            " | " +
+            " — " +
             product.name +
             " - " +
             product?.description?.replace(/<[^>]*>?/gm, "")}
@@ -215,7 +215,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta
           name="apple-mobile-web-app-title"
-          content={company.name + " | " + product.name}
+          content={company.name + " — " + product.name}
         />
         <meta name="msapplication-TileColor" content="#222" />
         <meta
@@ -288,7 +288,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
     const description =
       removeHTML(article.properties?.resume).length > 0
         ? removeHTML(article.properties?.resume)
-        : article.title + " | " + company.name;
+        : removeHTML(article.text.slice(0, 150)) + "...";
     const text = article.text;
     const image = article.medias?.[0]
       ? article.medias[0].link
@@ -297,12 +297,15 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
       : company.medias && company.medias.length > 0
       ? company.medias[0].link
       : "";
+    const url = company.website_url
+      ? company.website_url + "/articles/" + article.slug
+      : "/articles/" + article.slug;
     return (
       <>
         <style>{css}</style>
         <title>
           {company.name +
-            " | " +
+            " — " +
             article.title +
             " - " +
             removeHTML(article?.properties?.resume)}
@@ -325,7 +328,7 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta
           name="apple-mobile-web-app-title"
-          content={company.name + " | " + article.title}
+          content={company.name + " — " + article.title}
         />
         <meta name="msapplication-TileColor" content="#222" />
         <meta name="msapplication-TileImage" content={image} />
@@ -339,6 +342,14 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         <meta itemProp="name" content={article.title} />
         <meta itemProp="description" content={description} />
         <meta itemProp="image" content={image} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content={company.name} />
+        <meta name="twitter:creator" content={company.name} />
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={article.title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={image} />
       </>
     );
   } else {

@@ -1,16 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthorBlock from "../components/AuthorBlock";
 import { diffForHumans } from "../utils/helpers";
 
 function Article({ company, article }) {
   const image = article.medias?.[0];
+  const title = article.title;
+  const [url, setUrl] = useState(window ? window.location.href : "");
+  useEffect(() => {
+    if (document || window) {
+      setUrl(window.location.href);
+    }
+  }, []);
   return (
     <div className=" text-gray-800 font-default my-3">
-      <div className="mx-auto text-center w-full">
+      {/* <div className="mx-auto text-center w-full">
         <Link href="/articles">Voir tous les articles</Link>
-      </div>
+      </div> */}
       {image && (
         <img
           src={image.link}
@@ -32,7 +39,51 @@ function Article({ company, article }) {
           __html: article.text,
         }}
       ></div>
-      <div className="mx-auto text-center w-full">
+      <div className="">
+        <h3 className="font-bold"> Partager l'article</h3>
+        <div className="">
+          <a
+            target={"_blank"}
+            rel="noreferrer"
+            href={"https://www.facebook.com/sharer/sharer.php?u=" + url}
+            className="mr-3 mt-3 inline-block social_btn facebook"
+          >
+            Facebook
+          </a>
+          <a
+            target={"_blank"}
+            rel="noreferrer"
+            href={
+              "https://twitter.com/intent/tweet?text=" + title + "&url=" + url
+            }
+            className="mr-3 mt-3 inline-block social_btn twitter"
+          >
+            Twitter
+          </a>
+          <a
+            target={"_blank"}
+            rel="noreferrer"
+            href={
+              "https://www.linkedin.com/shareArticle?mini=true&url=" +
+              url +
+              "&title=" +
+              title
+            }
+            className="mr-3 mt-3 inline-block social_btn linkedin"
+          >
+            LinkedIn
+          </a>
+          <a
+            target={"_blank"}
+            rel="noreferrer"
+            href={"https://api.whatsapp.com/send?text=" + title + "%20" + url}
+            className="mr-3 mt-3 inline-block social_btn whatsapp"
+          >
+            Whatsapp
+          </a>
+        </div>
+      </div>
+      <div className="mx-auto my-4 underline text-center w-full">
         <Link href="/articles">Voir tous les articles</Link>
       </div>
       {/* <AuthorBlock article={article} company={company} /> */}

@@ -156,3 +156,26 @@ footer .genuka_bar {
   font-family: "Soleil" !important;
   color: rgba(0, 0, 0, 0.82);
 }
+
+.social_btn {
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.facebook {
+  background-color: #4267B2;
+}
+
+.twitter {
+  background-color: #1DA1F2;
+}
+
+.linkedin {
+  background-color: #0077B5;
+}
+
+.whatsapp {
+  background-color: #25D366;
+}
