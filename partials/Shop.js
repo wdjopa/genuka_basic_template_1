@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React from "react";
-// import Whatsapp from "../components/icons/Whatsapp";
-import Whatsapp from "../public/assets/whatsapp.svg";
 
 import Pagination from "../components/Pagination";
 import {
@@ -66,12 +64,12 @@ function Shop({ company, css }) {
     .replaceAll(")", "")
     .replaceAll("-", "")
     .replaceAll(" ", "");
-  let hasWhatsapp = company.settings.default_template.whatsapp
-    ? company.settings.default_template.whatsapp.active
+  let hasWhatsapp = company.settings.default_template?.whatsapp
+    ? company.settings.default_template?.whatsapp?.active
     : phoneNumber != ""
     ? true
     : false;
-  const message = company.settings.default_template.whatsapp?.message ?? "";
+  const message = company.settings.default_template?.whatsapp?.message ?? "";
 
   return (
     <>
