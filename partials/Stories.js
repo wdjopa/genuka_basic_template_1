@@ -28,7 +28,7 @@ function Stories({ company }) {
     },
   }));
   return (
-    <div className="flex relative overflow-x-auto justify-start md:justify-center pb-2 mb-2 py-2 w-full">
+    <div className="flex relative overflow-x-auto justify-start md:justify-center pb-4 mb-2 py-2 w-full">
       {medias.map((media, i) => {
         return (
           <Image

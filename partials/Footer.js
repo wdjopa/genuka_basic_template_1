@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import GenukaBar from "../components/GenukaBar";
+import SocialNetworks from "./SocialNetworks";
 // import { version } from "../package.json";
 
 const version = "1.0.0";
@@ -45,6 +46,8 @@ function Footer({ company }) {
   return (
     <footer className="footer pb-10">
       <GenukaBar />
+      <SocialNetworks company={company} />
+
       {company.legals && company.legals.length > 0 ? (
         <>
           <hr className="my-5" />

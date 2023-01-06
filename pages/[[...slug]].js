@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Layout from "../partials/Layout";
 import Shop from "../partials/Shop";
+import SocialNetworks from "../partials/SocialNetworks";
 import Stories from "../partials/Stories";
 import { genuka_api_2021_10 } from "../utils/configs";
 import {
