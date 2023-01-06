@@ -17,7 +17,7 @@ function Pagination({ pagination, onChange }) {
   if (pagination.last_page == 1) return <></>;
 
   return (
-    <div className="flex items-center justify-between  border-gray-200 bg-transparent px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between  border-gray-200 bg-transparent">
       <div className="flex flex-1 justify-center">
         <button
           onClick={previousPage}
@@ -25,12 +25,12 @@ function Pagination({ pagination, onChange }) {
         >
           Précédent
         </button>
-        <div className="text-gray-700 text-center flex items-center justify-center w-36">
-          Page {pagination.current_page} sur {pagination.last_page}
+        <div className="text-gray-700 text-center flex items-center justify-center px-2">
+          Page {pagination.current_page} sur {pagination.last_page ?? 1}
         </div>
         <button
           onClick={nextPage}
-          className="relative ml-3 inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="relative inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Suivant
         </button>

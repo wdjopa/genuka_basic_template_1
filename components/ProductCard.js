@@ -13,6 +13,7 @@ function ProductCard({
   currency,
   addToCart,
   removeFromCart,
+  model = "rectangle",
 }) {
   const [srcImage, setSrcImage] = useState(
     product.medias.length > 0 ? product.medias[0].thumb : defaultImage
@@ -28,7 +29,10 @@ function ProductCard({
     product.slug;
   return (
     <div
-      className="rounded-md h-64 overflow-hidden relative"
+      className={
+        (model === "square" ? "sm:h-64 h-40" : " sm:h-96 h-64 ") +
+        " rounded-md  overflow-hidden relative"
+      }
       onClick={() => seeDetails(product)}
     >
       <Link className="block" href={url}>

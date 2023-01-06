@@ -65,7 +65,7 @@ function Products({ company, css }) {
   };
 
   const _products = search_mode ? searched_products : products;
-
+  const model = company.settings.default_template?.product_layout ?? "square";
   if (!_products || !company) {
     return <></>;
   }
@@ -74,6 +74,7 @@ function Products({ company, css }) {
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 sm:grid-flow-row ">
         {_products.map((product) => (
           <ProductCard
+            model={model}
             key={"product_card" + product.id}
             product={product}
             quantityInCart={cart.items.reduce((prev, curr, items) => {
