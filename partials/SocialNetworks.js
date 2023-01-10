@@ -7,7 +7,9 @@ function SocialNetworks({ company }) {
   if (!social_networks) return <></>;
   return (
     <>
-      <h4 className="block text-xl text-center">Suivez-nous sur les réseaux</h4>
+      <span className="block text-xl text-center">
+        Suivez-nous sur les réseaux
+      </span>
       <div className="flex my-3 justify-center ">
         {social_networks &&
           Object.keys(social_networks)
