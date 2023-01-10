@@ -92,8 +92,9 @@ export default function Home({
 
 export async function getServerSideProps(context) {
   let company, result, collection, product;
-  const { req } = context;
+  const { req, res } = context;
   const url = req.headers.host;
+
   try {
     result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
     company = await result.json();
@@ -144,6 +145,11 @@ export async function getServerSideProps(context) {
     }
     if (product) props.productFromServer = product;
   }
+
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   return {
     props,
   };

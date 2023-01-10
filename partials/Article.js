@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import AuthorBlock from "../components/AuthorBlock";
@@ -19,9 +20,11 @@ function Article({ company, article }) {
         <Link href="/articles">Voir tous les articles</Link>
       </div> */}
       {image && (
-        <img
+        <Image
+          width={1080}
+          height={380}
           src={image.link}
-          className="rounded-lg w-full h-72 object-cover my-5"
+          className="rounded-lg w-full object-cover my-5"
           alt={"Image of " + article.title}
         />
       )}

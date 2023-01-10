@@ -39,7 +39,7 @@ export default DetailArticle;
 
 export async function getServerSideProps(context) {
   let company, result, article;
-  const { req } = context;
+  const { req, res } = context;
   const slug = context.params.slug;
   const url = req.headers.host;
   // console.log({ url });
@@ -92,6 +92,11 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   return {
     props,
   };

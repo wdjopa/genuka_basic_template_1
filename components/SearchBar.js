@@ -28,12 +28,12 @@ function SearchBar({ onSearch, placeholder }) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div
+        {/* <div
           className="cursor-pointer absolute inset-y-0 right-0 flex items-center "
           onClick={openFilters}
         >
           <div className="p-2 text-slate-200">Filtres</div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

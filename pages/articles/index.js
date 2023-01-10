@@ -90,7 +90,7 @@ export default ArticlesList;
 
 export async function getServerSideProps(context) {
   let company, result, article;
-  const { req } = context;
+  const { req, res } = context;
   const url = req.headers.host;
   //   console.log({ url });
   try {
@@ -122,6 +122,10 @@ export async function getServerSideProps(context) {
     company,
   };
 
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   return {
     props,
   };

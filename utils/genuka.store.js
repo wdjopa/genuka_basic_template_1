@@ -64,7 +64,11 @@ async function getPaginatedCollections(
 
   try {
     const response = await axios.get(
-      `${genuka_api_2021_10}/companies/${company_id}/collections?per_page=${collection_list_pagination.per_page}&page=${collection_list_pagination.page}&sort_by=${collection_list_pagination.sort_by}&sort_dir=${collection_list_pagination.sort_dir}`
+      `${genuka_api_2021_10}/companies/${company_id}/collections?per_page=${
+        collection_list_pagination.per_page
+      }&page=${collection_list_pagination.page || 1}&sort_by=${
+        collection_list_pagination.sort_by
+      }&sort_dir=${collection_list_pagination.sort_dir}`
     );
     if (response.data) {
       dispatch({ type: "collections_success", payload: response.data });
@@ -117,7 +121,11 @@ async function getCollectionProducts(
 
   try {
     const response = await axios.get(
-      `${genuka_api_2021_10}/companies/${company_id}/collections/${collection_id}?per_page=${collection_product_list_pagination.per_page}&page=${collection_product_list_pagination.page}&sort_by=${collection_product_list_pagination.sort_by}&sort_dir=${collection_product_list_pagination.sort_dir}`
+      `${genuka_api_2021_10}/companies/${company_id}/collections/${collection_id}?per_page=${
+        collection_product_list_pagination.per_page
+      }&page=${collection_product_list_pagination.page || 1}&sort_by=${
+        collection_product_list_pagination.sort_by
+      }&sort_dir=${collection_product_list_pagination.sort_dir}`
     );
     // console.log(response);
     if (response.data) {
@@ -147,7 +155,11 @@ async function getProducts(
 
   try {
     const response = await axios.get(
-      `${genuka_api_2021_10}/companies/${company_id}/products?per_page=${collection_product_list_pagination.per_page}&page=${collection_product_list_pagination.page}&sort_by=${collection_product_list_pagination.sort_by}&sort_dir=${collection_product_list_pagination.sort_dir}`
+      `${genuka_api_2021_10}/companies/${company_id}/products?per_page=${
+        collection_product_list_pagination.per_page
+      }&page=${collection_product_list_pagination.page || 1}&sort_by=${
+        collection_product_list_pagination.sort_by
+      }&sort_dir=${collection_product_list_pagination.sort_dir}`
     );
     if (response.data) {
       dispatch({ type: "products_success", payload: response.data });
@@ -243,7 +255,11 @@ async function getArticles(dispatch, company_id, articles_list_pagination) {
 
   try {
     const response = await axios.get(
-      `${genuka_api_2021_10}/companies/${company_id}/blogs?per_page=${articles_list_pagination.per_page}&page=${articles_list_pagination.page}&sort_by=${articles_list_pagination.sort_by}&sort_dir=${articles_list_pagination.sort_dir}`
+      `${genuka_api_2021_10}/companies/${company_id}/blogs?per_page=${
+        articles_list_pagination.per_page
+      }&page=${articles_list_pagination.page || 1}&sort_by=${
+        articles_list_pagination.sort_by
+      }&sort_dir=${articles_list_pagination.sort_dir}`
     );
     if (response.data) {
       dispatch({ type: "articles_success", payload: response.data });
