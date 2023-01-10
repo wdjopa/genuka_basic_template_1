@@ -3,7 +3,7 @@ import React from "react";
 
 function SocialNetworks({ company }) {
   const social_networks = company.settings.default_template?.social_networks;
-  console.log(social_networks);
+  // console.log(social_networks);
   if (!social_networks) return <></>;
   return (
     <>
