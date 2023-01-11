@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "serverless --aws-profile default"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -22,11 +23,13 @@
     "posthog-js": "^1.93.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-insta-stories": "^2.4.2"
+    "react-insta-stories": "^2.4.2",
+    "serverless-http": "^3.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
+    "serverless-esbuild": "^1.37.0",
     "tailwindcss": "^3.2.4"
   }
 }
