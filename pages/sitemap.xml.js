@@ -9,7 +9,7 @@ function generateSiteMap(pages) {
            return `
          <url>
              <loc>${`${url}`}</loc>
-             <lastmod>${`${lastmod}`}</lastmod>
+             ${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}
              <changefreq>${`${changefreq}`}</changefreq>
              <priority>${`${priority}`}</priority>
          </url>
