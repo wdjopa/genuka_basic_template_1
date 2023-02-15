@@ -12,12 +12,12 @@ function Layout({ company, children, head }) {
     addScriptGA.setAttribute("async", "true");
     addScriptGA.setAttribute(
       "src",
-      "https://www.googletagmanager.com/gtag/js?id=G-Q83E2K8TPB"
+      "https://www.googletagmanager.com/gtag/js?id=G-MRPCJW45BE"
     );
     document.body.appendChild(addScriptGA);
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push("js", new Date());
-    window.dataLayer.push("config", "G-Q83E2K8TPB");
+    window.dataLayer.push("config", "G-MRPCJW45BE");
   }, []);
   // useEffect(() => {
   //   if (!window.is_google_translated_added) {
