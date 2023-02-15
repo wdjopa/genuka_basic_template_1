@@ -7,18 +7,18 @@ import Footer from "./Footer.js";
 import Header from "./Header.js";
 
 function Layout({ company, children, head }) {
-  useEffect(() => {
-    let addScriptGA = document.createElement("script");
-    addScriptGA.setAttribute("async", "true");
-    addScriptGA.setAttribute(
-      "src",
-      "https://www.googletagmanager.com/gtag/js?id=G-MRPCJW45BE"
-    );
-    document.body.appendChild(addScriptGA);
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push("js", new Date());
-    window.dataLayer.push("config", "G-MRPCJW45BE");
-  }, []);
+  // useEffect(() => {
+  //   let addScriptGA = document.createElement("script");
+  //   addScriptGA.setAttribute("async", "true");
+  //   addScriptGA.setAttribute(
+  //     "src",
+  //     "https://www.googletagmanager.com/gtag/js?id=G-MRPCJW45BE"
+  //   );
+  //   document.body.appendChild(addScriptGA);
+  //   window.dataLayer = window.dataLayer || [];
+  //   window.dataLayer.push("js", new Date());
+  //   window.dataLayer.push("config", "G-MRPCJW45BE");
+  // }, []);
   // useEffect(() => {
   //   if (!window.is_google_translated_added) {
   //     window.is_google_translated_added = true;

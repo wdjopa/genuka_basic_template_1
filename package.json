@@ -20,6 +20,7 @@
     "framer-motion": "^6.5.1",
     "js-cookie": "^3.0.1",
     "next": "13.1.1",
+    "nextjs-google-analytics": "^2.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-insta-stories": "^2.4.2",
