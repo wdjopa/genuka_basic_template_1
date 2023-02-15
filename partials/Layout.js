@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import Loader from "../components/Loader.js";
 import Notifications from "../components/Notification.js";
 import { useGenukaState } from "../utils/genuka.store.js";

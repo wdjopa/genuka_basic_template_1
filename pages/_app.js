@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import "../styles/globals.css";
 import { GenukaProvider } from "../utils/genuka.store";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 import posthog from "posthog-js";
 import { PostHogProvider } from "posthog-js/react";
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps }) {
   return (
     <PostHogProvider client={posthog}>
       <GenukaProvider>
+        <GoogleAnalytics gaMeasurementId="G-MRPCJW45BE" />
         <Component {...pageProps} />
       </GenukaProvider>
     </PostHogProvider>
