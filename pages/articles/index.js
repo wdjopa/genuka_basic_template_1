@@ -95,10 +95,19 @@ export async function getServerSideProps(context) {
     req.headers["x-forwarded-for"]?.split(",")[0] ||
     req.connection.remoteAddress;
   const url = req.headers.host;
+
+  const userAgent = req.headers["user-agent"];
+
+  const headers = {
+    "X-Forwarded-For": ipAddress,
+    "User-Agent": userAgent,
+  };
+
   //   console.log({ url });
   try {
     result = await fetch(
-      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`
+      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`,
+      { headers }
     );
     company = await result.json();
     if (!company.id) throw new Error(company);
@@ -106,7 +115,8 @@ export async function getServerSideProps(context) {
     console.error(error);
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`,
+        { headers }
       );
       company = await result.json();
       if (!company.id) throw new Error(company);

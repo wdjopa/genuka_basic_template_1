@@ -1,4 +1,5 @@
 import { genuka_api_2021_10 } from "../utils/configs";
+import fetch from "isomorphic-fetch";
 
 function generateSiteMap(pages) {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -30,16 +31,24 @@ export async function getServerSideProps({ res, req }) {
     req.connection.remoteAddress;
   let company, result, collection, product;
   const url = req.headers.host;
+  const userAgent = req.headers["user-agent"];
+
+  const headers = {
+    "X-Forwarded-For": ipAddress,
+    "User-Agent": userAgent,
+  };
   try {
     result = await fetch(
-      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`
+      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`,
+      { headers }
     );
     company = await result.json();
     if (!company.id) throw new Error(company);
   } catch (error) {
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`,
+        { headers }
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
@@ -57,12 +66,14 @@ export async function getServerSideProps({ res, req }) {
   }
 
   result = await fetch(
-    `${genuka_api_2021_10}/companies/${company.id}/products?clientIp=${ipAddress}per_page=1000`
+    `${genuka_api_2021_10}/companies/${company.id}/products?clientIp=${ipAddress}per_page=1000`,
+    { headers }
   );
   const { data: products } = await result.json();
 
   result = await fetch(
-    `${genuka_api_2021_10}/companies/${company.id}/collections?clientIp=${ipAddress}per_page=1000`
+    `${genuka_api_2021_10}/companies/${company.id}/collections?clientIp=${ipAddress}per_page=1000`,
+    { headers }
   );
   const { data: collections } = await result.json();
 

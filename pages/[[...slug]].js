@@ -15,6 +15,7 @@ import {
   useGenukaState,
 } from "../utils/genuka.store";
 import { getMetaData } from "../utils/helpers";
+import fetch from "isomorphic-fetch";
 
 export default function Home({
   company,
@@ -91,24 +92,36 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
+  const { req, res } = context;
   const ipAddress =
-    context.req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
     req.connection.remoteAddress;
+  const userAgent = req.headers["user-agent"];
+
+  const headers = {
+    "X-Forwarded-For": ipAddress,
+    "User-Agent": userAgent,
+  };
 
   let company, result, collection, product;
-  const { req, res } = context;
   const url = req.headers.host;
 
   try {
     result = await fetch(
-      `${genuka_api_2021_10}/companies/byurl/?url=${url}&clientIp=${ipAddress}`
+      `${genuka_api_2021_10}/companies/byurl/?url=${url}&clientIp=${ipAddress}`,
+      {
+        headers: headers,
+      }
     );
     company = await result.json();
     if (!company.id) throw new Error(company);
   } catch (error) {
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}&clientIp=${ipAddress}`
+        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}&clientIp=${ipAddress}`,
+        {
+          headers: headers,
+        }
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
