@@ -104,18 +104,24 @@ export default function Home({
 }
 
 export async function getServerSideProps(context) {
+  const ipAddress =
+    context.req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.connection.remoteAddress;
+
   let company, result, collection, product;
   const { req, res } = context;
   const url = req.headers.host;
 
   try {
-    result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
+    result = await fetch(
+      `${genuka_api_2021_10}/companies/byurl/?url=${url}&clientIp=${ipAddress}`
+    );
     company = await result.json();
     if (!company.id) throw new Error(company);
   } catch (error) {
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}&clientIp=${ipAddress}`
       );
       company = await result.json();
       if (!company.id) throw new Error(company);

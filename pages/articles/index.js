@@ -91,17 +91,22 @@ export default ArticlesList;
 export async function getServerSideProps(context) {
   let company, result, article;
   const { req, res } = context;
+  const ipAddress =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.connection.remoteAddress;
   const url = req.headers.host;
   //   console.log({ url });
   try {
-    result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
+    result = await fetch(
+      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`
+    );
     company = await result.json();
     if (!company.id) throw new Error(company);
   } catch (error) {
     console.error(error);
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
