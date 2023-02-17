@@ -25,16 +25,21 @@ function SiteMap() {
 }
 
 export async function getServerSideProps({ res, req }) {
+  const ipAddress =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.connection.remoteAddress;
   let company, result, collection, product;
   const url = req.headers.host;
   try {
-    result = await fetch(`${genuka_api_2021_10}/companies/byurl/?url=${url}`);
+    result = await fetch(
+      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`
+    );
     company = await result.json();
     if (!company.id) throw new Error(company);
   } catch (error) {
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
@@ -52,12 +57,12 @@ export async function getServerSideProps({ res, req }) {
   }
 
   result = await fetch(
-    `${genuka_api_2021_10}/companies/${company.id}/products?per_page=1000`
+    `${genuka_api_2021_10}/companies/${company.id}/products?clientIp=${ipAddress}per_page=1000`
   );
   const { data: products } = await result.json();
 
   result = await fetch(
-    `${genuka_api_2021_10}/companies/${company.id}/collections?per_page=1000`
+    `${genuka_api_2021_10}/companies/${company.id}/collections?clientIp=${ipAddress}per_page=1000`
   );
   const { data: collections } = await result.json();
 
