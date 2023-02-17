@@ -4,6 +4,7 @@ import Article from "../../partials/Article";
 import Layout from "../../partials/Layout";
 import { genuka_api_2021_10 } from "../../utils/configs";
 import { getMetaData } from "../../utils/helpers";
+import fetch from "isomorphic-fetch";
 
 function DetailArticle({ company, article }) {
   const css = `
@@ -46,9 +47,17 @@ export async function getServerSideProps(context) {
   const slug = context.params.slug;
   const url = req.headers.host;
   // console.log({ url });
+
+  const userAgent = req.headers["user-agent"];
+
+  const headers = {
+    "X-Forwarded-For": ipAddress,
+    "User-Agent": userAgent,
+  };
   try {
     result = await fetch(
-      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`
+      `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=${url}`,
+      { headers }
     );
     company = await result.json();
     if (!company.id) throw new Error(company);
@@ -56,7 +65,8 @@ export async function getServerSideProps(context) {
     console.error(error);
     try {
       result = await fetch(
-        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`
+        `${genuka_api_2021_10}/companies/byurl/?clientIp=${ipAddress}&url=https://${url}`,
+        { headers }
       );
       company = await result.json();
       if (!company.id) throw new Error(company);
@@ -80,7 +90,8 @@ export async function getServerSideProps(context) {
 
   try {
     result = await fetch(
-      `${genuka_api_2021_10}/companies/${company.id}/blogs/by_slug/${slug}?clientIp=${ipAddress}`
+      `${genuka_api_2021_10}/companies/${company.id}/blogs/by_slug/${slug}?clientIp=${ipAddress}`,
+      { headers }
     );
     article = await result.json();
     if (!article.id) throw new Error(article);
