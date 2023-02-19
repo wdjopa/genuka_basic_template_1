@@ -71,11 +71,11 @@ function PaymentProcessMobileMoney({ order }) {
   });
 
   const chargeMobileMoneyPayment = () => {
-    let phone = paymentSettings.phone.trim();
+    let phone = paymentSettings.phone.trim() || "";
     if (phone.substr(0, 3) != "237" && phone.substr(0, 4) != "+237") {
       phone = "237" + phone;
     } else {
-      phone = phone.replaceAll("+", "");
+      phone = phone?.replaceAll("+", "");
     }
     chargeMomoPayment(dispatch, { ...paymentSettings, phone });
   };

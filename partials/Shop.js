@@ -58,7 +58,7 @@ function Shop({ company, css }) {
       getProducts(dispatch, company.id, pagination);
     }
   };
-  const phoneNumber = company.phone
+  const phoneNumber = (company.phone || "")
     .replaceAll(" ", "")
     .replaceAll("(", "")
     .replaceAll(")", "")
