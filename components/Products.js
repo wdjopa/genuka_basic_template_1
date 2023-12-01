@@ -67,8 +67,7 @@ function Products({ company, css }) {
   };
 
   const _products = search_mode ? searched_products : products;
-  const model =
-    "line" || company.settings.default_template?.product_layout || "square";
+  const model = company.settings.default_template?.product_layout || "square";
   if (!_products || !company) {
     return <></>;
   }
