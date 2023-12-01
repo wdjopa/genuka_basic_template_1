@@ -5,26 +5,29 @@ import React from "react";
 function Header({ company }) {
   if (!company) return <></>;
   return (
-    <>
-      <Link href="/" className="flex justify-center content-center py-4">
+    <div className="mb-5 border-b border-primary/20">
+      <Link href="/" className="flex justify-center items-center py-4">
         {company.logo && (
           <Image
             className="rounded"
-            width={60}
-            height={60}
+            width={50}
+            height={50}
             src={company.logo}
+            style={{ maxHeight: 50, objectFit: "cover" }}
             alt={"Logo of " + company.name}
           />
         )}
-        <h1 className="ml-2 flex items-center">
-          <span className="text-2xl font-semibold">{company.name}</span>
+        <h1 className="ml-7 flex items-center">
+          <span className="text-3xl text-center font-normal text-primary font-title">
+            {company.name}
+          </span>
         </h1>
       </Link>
 
-      <div className="text-center">
-        <h2>{company.description}</h2>
-      </div>
-    </>
+      {/* <div className="text-center my-6">
+        <h4>{company.description}</h4>
+      </div> */}
+    </div>
   );
 }
 

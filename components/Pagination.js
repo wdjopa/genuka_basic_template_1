@@ -14,12 +14,13 @@ function Pagination({ pagination, onChange }) {
     }
   };
 
-  if (pagination.last_page == 1) return <></>;
+  console.log({pagination})
+  if (pagination.last_page == 1 || pagination.last_page === pagination.current_page) return <></>;
 
   return (
     <div className="flex items-center justify-between  border-gray-200 bg-transparent">
       <div className="flex flex-1 justify-center">
-        <button
+        {/* <button
           onClick={previousPage}
           className="relative inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
@@ -27,12 +28,12 @@ function Pagination({ pagination, onChange }) {
         </button>
         <div className="text-gray-700 text-center flex items-center justify-center px-2">
           Page {pagination.current_page} sur {pagination.last_page ?? 1}
-        </div>
+        </div> */}
         <button
           onClick={nextPage}
           className="relative inline-flex z-0 items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
-          Suivant
+          Afficher plus
         </button>
       </div>
     </div>

@@ -162,7 +162,7 @@ async function getProducts(
       }&sort_dir=${collection_product_list_pagination.sort_dir}`
     );
     if (response.data) {
-      dispatch({ type: "products_success", payload: response.data });
+      dispatch({ type: "add_products_success", payload: response.data });
     } else {
       dispatch({
         type: "error",
@@ -896,7 +896,18 @@ function commentReducer(state, action) {
     case "products_success": {
       return {
         ...state,
-        products: action.payload.data,
+        products: [...action.payload.data],
+        collection_product_list_pagination: {
+          ...action.payload.meta,
+          ...action.payload.links,
+          page: state.collection_product_list_pagination.page,
+        },
+      };
+    }
+    case "add_products_success": {
+      return {
+        ...state,
+        products: [...(state.products || []), ...action.payload.data],
         collection_product_list_pagination: {
           ...action.payload.meta,
           ...action.payload.links,

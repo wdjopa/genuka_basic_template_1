@@ -1,6 +1,16 @@
 export const tail = ([x, ...xs], elt) => {
   return [...xs, elt];
 };
+export function removeTags(inputText = "") {
+  // Remove HTML tags
+  let textWithoutTags = (inputText||"").replace(/<\/?[^>]+(>|$)/g, "");
+
+  // Convert HTML entities to characters
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(textWithoutTags, "text/html");
+  return doc.documentElement.textContent;
+}
+
 export const addAVariantOption = (_variants, { variant, option }) => {
   let variants = [];
   // si la variant n'existe pas, on la rajoute, ensuite, on rajoute l'option
@@ -231,7 +241,10 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
           }
         />
         <meta name="theme-color" content="#222" />
-        <meta property="og:title" content={product.name} />
+        <meta
+          property="og:title"
+          content={company.name + " — " + product.name}
+        />
         <meta
           property="og:description"
           content={product?.description?.replace(/<[^>]*>?/gm, "")}
@@ -250,8 +263,11 @@ export const getMetaData = ({ css, company, product, article, collection }) => {
         />
 
         <meta property="og:type" content="product" />
-        <meta property="og:site_name" content={product.name} />
-        <meta itemProp="name" content={product.name} />
+        <meta
+          property="og:site_name"
+          content={company.name + " — " + product.name}
+        />
+        <meta itemProp="name" content={company.name + " — " + product.name} />
         <meta
           itemProp="description"
           content={

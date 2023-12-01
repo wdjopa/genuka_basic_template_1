@@ -89,12 +89,12 @@ function Shop({ company, css }) {
           />
         </a>
       )}
-      <Link
+      {/* <Link
         className="rounded-2 bg-white p-2 px-4 text-sm my-3 text-primary inline-block sm:w-auto w-full sm:text-left text-center"
         href={"/articles"}
       >
         📚 Consultez notre Blog 📚
-      </Link>
+      </Link> */}
       <SearchBar
         placeholder={"Recherchez un produit"}
         onSearch={searchProduct}

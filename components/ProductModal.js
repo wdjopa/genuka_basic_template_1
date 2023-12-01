@@ -214,7 +214,7 @@ const ProductModal = ({
           >
             <div className="absolute inset-0 bg-black opacity-75"></div>
           </div>
-          <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-3xl md:max-w-4xl xl:max-w-5xl sm:w-full px-6 py-4">
+          <div className="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-3xl md:max-w-4xl xl:max-w-5xl sm:w-full px-2 md:px-6 py-4">
             <div className="">
               <div className="flex items-center justify-between mb-2 border-b pb-4">
                 <h2 className="text-xl sm:text-3xl leading-6 font-sm text-gray-900">
@@ -292,7 +292,7 @@ const ProductModal = ({
                       <button
                         className={
                           (canOrder
-                            ? "border-primary text-primary"
+                            ? "bg-primary text-white border-primary"
                             : " text-slate-400") +
                           " btn border-2 my-2 rounded-md w-full px-4 py-2"
                         }
@@ -316,8 +316,9 @@ const ProductModal = ({
                       </button>
                     </div>
 
-                    <ToggleTitle title={"Description"} isOpenByDefault={true}>
+                    <ToggleTitle title={"Description"} className="text-slate-400" isOpenByDefault={true}>
                       <div
+                      className=""
                         dangerouslySetInnerHTML={{
                           __html: product.description,
                         }}

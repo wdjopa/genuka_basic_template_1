@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // import Layout from "../partials/Layout";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Layout from "../partials/Layout";
 import Shop from "../partials/Shop";
-import SocialNetworks from "../partials/SocialNetworks";
 import Stories from "../partials/Stories";
 import { genuka_api_2021_10 } from "../utils/configs";
 import {
@@ -15,6 +14,7 @@ import {
   useGenukaState,
 } from "../utils/genuka.store";
 import { getMetaData } from "../utils/helpers";
+import Link from "next/link";
 
 export default function Home({
   company,
@@ -29,6 +29,19 @@ export default function Home({
       --background-color-light: ${
         company.settings?.default_template?.main_color ?? "#FF9900"
       }07;
+    }
+    ${
+      company.settings?.default_template?.title_font_url
+        ? `
+    @font-face{
+      font-family: "Customer Primary";
+      src: url("${company.settings?.default_template?.title_font_url}");
+      font-display: swap;
+    }
+    .font-title{
+      font-family: "Customer Primary";
+    }`
+        : ""
     }
   `;
   const meta = getMetaData({

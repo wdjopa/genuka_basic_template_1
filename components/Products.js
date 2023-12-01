@@ -7,6 +7,7 @@ import {
   useGenukaDispatch,
   useGenukaState,
 } from "../utils/genuka.store";
+import { ProductLine } from "./ProductCard";
 
 const ProductCard = dynamic(() => import("./ProductCard"));
 const ProductModal = dynamic(() => import("./ProductModal"));
@@ -20,6 +21,7 @@ function Products({ company, css }) {
     product,
     cart,
   } = useGenukaState();
+  console.log({ company });
   const dispatch = useGenukaDispatch();
   const [modalOpen, setModalOpen] = useState(false);
   const [productDetailed, setProductDetailed] = useState(product);
@@ -65,33 +67,58 @@ function Products({ company, css }) {
   };
 
   const _products = search_mode ? searched_products : products;
-  const model = company.settings.default_template?.product_layout ?? "square";
+  const model =
+    "line" || company.settings.default_template?.product_layout || "square";
   if (!_products || !company) {
     return <></>;
   }
   return (
     <>
-      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 sm:grid-flow-row ">
-        {_products.map((product) => (
-          <ProductCard
-            model={model}
-            key={"product_card" + product.id}
-            product={product}
-            quantityInCart={cart.items.reduce((prev, curr, items) => {
-              return (
-                prev + (curr.product.id === product.id ? curr.quantity : 0)
-              );
-            }, 0)}
-            addToCart={addProductToCart}
-            removeFromCart={() => {
-              removeProductFromCart(product);
-            }}
-            currency={company.currency}
-            defaultImage={"/assets/placeholder.png"}
-            seeDetails={openDetails}
-          />
-        ))}
-      </div>
+      {model === "line" ? (
+        <div className="grid gap-2 grid-cols-1 sm:grid-cols-2  sm:grid-cols-3 sm:grid-flow-row ">
+          {_products.map((product) => (
+            <ProductLine
+              model={model}
+              key={"product_card" + product.id}
+              product={product}
+              quantityInCart={cart.items.reduce((prev, curr, items) => {
+                return (
+                  prev + (curr.product.id === product.id ? curr.quantity : 0)
+                );
+              }, 0)}
+              addToCart={addProductToCart}
+              removeFromCart={() => {
+                removeProductFromCart(product);
+              }}
+              currency={company.currency}
+              defaultImage={company.logo || "/assets/placeholder.png"}
+              seeDetails={openDetails}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 sm:grid-flow-row ">
+          {_products.map((product) => (
+            <ProductCard
+              model={model}
+              key={"product_card" + product.id}
+              product={product}
+              quantityInCart={cart.items.reduce((prev, curr, items) => {
+                return (
+                  prev + (curr.product.id === product.id ? curr.quantity : 0)
+                );
+              }, 0)}
+              addToCart={addProductToCart}
+              removeFromCart={() => {
+                removeProductFromCart(product);
+              }}
+              currency={company.currency}
+              defaultImage={company.logo || "/assets/placeholder.png"}
+              seeDetails={openDetails}
+            />
+          ))}
+        </div>
+      )}
       {productDetailed && (
         <ProductModal
           css={css}

@@ -3,11 +3,10 @@ import React from "react";
 
 function SocialNetworks({ company }) {
   const social_networks = company.settings.default_template?.social_networks;
-  // console.log(social_networks);
   if (!social_networks) return <></>;
   return (
     <>
-      <h4 className="block text-xl text-center">Suivez-nous sur les réseaux</h4>
+      <h4 className="block text-base text-center">Suivez-nous sur les réseaux</h4>
       <div className="flex my-3 justify-center ">
         {social_networks &&
           Object.keys(social_networks)
