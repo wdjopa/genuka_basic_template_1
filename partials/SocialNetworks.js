@@ -3,7 +3,7 @@ import React from "react";
 
 function SocialNetworks({ company }) {
   const social_networks = company.settings.default_template?.social_networks;
-  if (!social_networks) return <></>;
+  if (!social_networks || (social_networks && !Object.keys(social_networks).length)) return <></>;
   return (
     <>
       <h4 className="block text-base text-center">Suivez-nous sur les réseaux</h4>
